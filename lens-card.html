@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lens Card | The Great Bypass</title>
+<meta name="description" content="One printable page from Micah J. Miner's IETC 2026 session, The Great Bypass: four questions for any AI use, the friction layers, and the table audit sentences.">
+<style>
+  /* One committed look, matching the deck. Printed, it drops to white paper. */
+  :root {
+    --stone:#E9E5DB; --paper:#FFFFFF; --ink:#191D21; --ink-soft:#4A5158; --rule:#C6C0B2;
+    --clay:#A63D26; --clay-wash:#F2DFD7; --clay-deep:#7A2C1B;
+    --ochre:#78540F; --ochre-wash:#F1E7CF; --ochre-deep:#5E410B;
+    --signal:#0E6E78;
+    --font-display:"Segoe UI Variable Display",ui-sans-serif,-apple-system,"Segoe UI",Roboto,system-ui,sans-serif;
+    --font-body:ui-sans-serif,-apple-system,"Segoe UI",Roboto,system-ui,sans-serif;
+    --font-data:ui-monospace,"Cascadia Mono",Consolas,"SF Mono",Menlo,monospace;
+  }
+  * { box-sizing:border-box; }
+  body { margin:0; background:var(--stone); color:var(--ink); font-family:var(--font-body); font-size:15px; line-height:1.4; }
+  .sheet { max-width:8.5in; margin:24px auto; padding:0.5in; background:var(--paper); }
+  .tools { max-width:8.5in; margin:16px auto 0; padding:0 16px; display:flex; gap:12px; align-items:center; font-family:var(--font-data); font-size:13px; }
+  .tools a { color:var(--signal); }
+  .tools button { font:inherit; letter-spacing:0.06em; text-transform:uppercase; background:var(--signal); color:#FFFFFF; border:0; border-radius:3px; padding:8px 12px; cursor:pointer; }
+  :focus-visible { outline:3px solid var(--signal); outline-offset:2px; }
+
+  .eyebrow { font-family:var(--font-data); font-size:11px; letter-spacing:0.16em; text-transform:uppercase; color:var(--signal); margin:0 0 6px; }
+  h1 { font-family:var(--font-display); font-size:27px; line-height:1.1; letter-spacing:-0.02em; margin:0 0 6px; }
+  h2 { font-family:var(--font-data); font-size:11px; letter-spacing:0.16em; text-transform:uppercase; color:var(--clay); margin:18px 0 8px; }
+  p { margin:0; }
+  .lead { color:var(--ink-soft); }
+
+  .layers { display:grid; grid-template-columns:repeat(3,1fr); gap:6px; }
+  .layer { background:var(--clay-wash); border:1.5px solid var(--clay); border-radius:3px; padding:7px 9px; }
+  .layer b { display:block; font-family:var(--font-display); color:var(--clay-deep); font-size:15px; }
+  .layer span { font-size:13px; color:var(--clay-deep); }
+  .layer small { display:block; font-family:var(--font-data); font-size:10px; letter-spacing:0.1em; text-transform:uppercase; color:var(--ink-soft); margin-top:2px; }
+  .layer--base { grid-column:1 / -1; background:var(--ochre-wash); border-color:var(--ochre); }
+  .layer--base b, .layer--base span { color:var(--ochre-deep); }
+  .note { font-size:13px; color:var(--ink-soft); margin-top:6px; }
+
+  ol.questions { list-style:none; margin:0; padding:0; display:grid; gap:7px; }
+  ol.questions li { display:grid; grid-template-columns:28px 1fr; border-left:4px solid var(--signal); padding:2px 0 2px 10px; }
+  ol.questions .qn { font-family:var(--font-data); font-weight:700; color:var(--signal); font-size:13px; padding-top:1px; }
+  ol.questions b { display:block; font-size:15px; }
+  ol.questions span span { font-size:13px; color:var(--ink-soft); }
+
+  .call { display:flex; gap:6px; flex-wrap:wrap; }
+  .call span { font-family:var(--font-data); font-size:12px; font-weight:700; letter-spacing:0.12em; text-transform:uppercase; border:1.5px solid var(--ink-soft); border-radius:3px; padding:5px 12px; }
+
+  .frames { border-left:5px solid var(--clay); background:#F7F4EE; padding:10px 12px; display:grid; gap:12px; }
+  .frames p { line-height:2.15; }
+  .blank { display:inline-block; min-width:9.5em; border-bottom:1.5px solid var(--ink); }
+  .blank--short { min-width:6.5em; }
+  .example { font-size:13px; color:var(--ink-soft); margin-top:8px; }
+  .example b { color:var(--ink); }
+
+  .caveat { margin-top:16px; font-size:13px; border:1px solid var(--rule); border-radius:3px; padding:8px 10px; }
+  footer { margin-top:14px; padding-top:8px; border-top:1px solid var(--rule); font-family:var(--font-data); font-size:10.5px; letter-spacing:0.03em; color:var(--ink-soft); display:grid; gap:2px; }
+
+  @media (max-width:40rem) {
+    .sheet { margin:12px 0 0; padding:20px 16px; }
+    .layers { grid-template-columns:1fr; }
+    .blank { min-width:7em; }
+  }
+  @page { size:letter; margin:0.45in; }
+  @media print {
+    body { background:#FFFFFF; font-size:13.5px; }
+    .tools { display:none; }
+    .sheet { margin:0; padding:0; max-width:none; }
+    h2 { margin:12px 0 6px; }
+    ol.questions { gap:4px; }
+    .frames { background:#FFFFFF; gap:4px; padding:6px 12px; }
+    .frames p { line-height:1.95; }
+    .caveat { margin-top:10px; }
+    footer { margin-top:10px; }
+    a { color:inherit; text-decoration:none; }
+  }
+</style>
+</head>
+<body>
+
+<div class="tools">
+  <button type="button" onclick="window.print()">Print or save as PDF</button>
+  <a href="index.html#20">Back to the slides</a>
+</div>
+
+<main class="sheet">
+  <p class="eyebrow">The Great Bypass &middot; IETC 2026 &middot; Micah J. Miner</p>
+  <h1>The lens: four questions for any AI use</h1>
+  <p class="lead">Run it on one specific use, not on a tool in general. Start from the learning goal: what must the learner still practice or decide?</p>
+
+  <h2>Where friction lives</h2>
+  <div class="layers">
+    <div class="layer"><b>Head</b><span>Working it out for yourself.</span><small>noetic &middot; protect</small></div>
+    <div class="layer"><b>Room</b><span>Saying it so others understand.</span><small>rhetorical &middot; protect</small></div>
+    <div class="layer"><b>World</b><span>Becoming someone who can do difficult things.</span><small>existential &middot; protect</small></div>
+    <div class="layer layer--base"><b>The base: the conditions</b><span>Time, access, technology, policy, the building. What makes the other three possible at all.</span><small>infrastructural &middot; reduce the barriers here</small></div>
+  </div>
+  <p class="note">Remove barriers in any layer. Preserve the thinking, dialogue, and responsibility required by the learning goal.</p>
+
+  <h2>Four questions</h2>
+  <ol class="questions">
+    <li><span class="qn">01</span><span><b>What does this make easier?</b><span>Be specific. Saves whom what, at which step?</span></span></li>
+    <li><span class="qn">02</span><span><b>Which layer is it easing?</b><span>The base, or Head, Room, or World? If you cannot say, you cannot govern it.</span></span></li>
+    <li><span class="qn">03</span><span><b>What is the student no longer doing, and was that the standard?</b><span>If the removed step was the objective, the tool did not help with the objective. It replaced it.</span></span></li>
+    <li><span class="qn">04</span><span><b>What signal would tell us it went wrong, and who is watching it?</b><span>Ordinary completion data may not show a learning gap. Name the evidence and the person who will inspect it.</span></span></li>
+  </ol>
+
+  <h2>Make the call</h2>
+  <div class="call"><span>Keep</span><span>Change</span><span>Constrain</span><span>Stop</span></div>
+
+  <h2>Your two sentences</h2>
+  <div class="frames">
+    <p>In this use, <span class="blank"></span> must still <span class="blank"></span>. <span class="blank blank--short"></span> will watch <span class="blank"></span> for signs the support is replacing the work that matters.</p>
+    <p>For it to last, <span class="blank"></span> (grades, pacing, device settings, professional learning, or policy) has to support it, and <span class="blank blank--short"></span> owns that.</p>
+  </div>
+  <p class="example"><b>Example, middle school reading.</b> In AI-summarized readings, 7th graders must still state the author's central claim in their own words. The ELA coach will review monthly student-authored exit tickets, with needed accessibility supports, for signs the tool is doing the target thinking. For it to last, the ELA pacing guide has to leave time for the exit tickets, and the curriculum director owns that.</p>
+
+  <p class="caveat"><b>What the lens does not do.</b> It looks for displaced learning. It does not clear a use for privacy, accuracy, bias, access, or academic integrity. Those checks still apply, including when a tool eases only the base.</p>
+
+  <footer>
+    <span>Slides and every link: minerclass.github.io/ietc-2026-great-bypass &middot; micahminer.com</span>
+    <span>Framework: Miner, M. J. (2026). When the output looks like learning. <i>i.e.: inquiry in education, 18</i>(1), Article 4.</span>
+  </footer>
+</main>
+
+</body>
+</html>

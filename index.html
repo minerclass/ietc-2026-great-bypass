@@ -1,0 +1,1285 @@
+<!DOCTYPE html>
+<html lang="en" data-mjm-ground="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Great Bypass | IETC 2026</title>
+<meta name="description" content="IETC 2026 breakout, November 12, 2026: pedagogical friction as a response to tertiary algorithmicity in the age of algorithms and AI. Micah J. Miner.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="The Great Bypass | Micah Miner | IETC 2026">
+<meta property="og:description" content="Pedagogical friction as a response to tertiary algorithmicity in the age of algorithms and AI.">
+<meta property="og:url" content="https://minerclass.github.io/ietc-2026-great-bypass/">
+<meta name="twitter:card" content="summary">
+<link rel="stylesheet" href="https://minerclass.github.io/tokens.css">
+<style>
+  /* ------------------------------------------------------------------
+     PALETTE. The color system carries the argument, it does not decorate.
+
+       WARM (clay, ochre) = the human layers. Head, Room, World.
+                            What a district protects.
+       COOL (signal teal) = the algorithmic. Smooth, fast, frictionless.
+                            What the tool does.
+
+     Committed single look. A projected deck must not change with the room
+     machine's OS theme, so every color is painted explicitly.
+     ------------------------------------------------------------------ */
+  :root {
+    /* Ground and ink from the shared ecosystem tokens with pre-adoption
+       fallbacks. The clay/ochre/teal argument colours stay local. */
+    --stone:var(--mjm-bg,#E9E5DB); --stone-lift:var(--mjm-surface,#F3F0E9); --stone-sink:#DBD6C9;
+    --graphite:#1E2328; --graphite-lift:#2A3037;
+    --ink:var(--mjm-ink,#191D21); --ink-soft:var(--mjm-muted,#4A5158); --ink-faint:#525A61;
+    --mjm-accent:var(--mjm-rust,#A63D26);
+    --on-dark:#EFEBE2; --on-dark-soft:#AFB6BC;
+
+    --clay:#A63D26; --clay-lit:#E8825F; --clay-wash:#F2DFD7; --clay-deep:#7A2C1B;
+    --ochre:#78540F; --ochre-lit:#E0AC4A; --ochre-wash:#F1E7CF; --ochre-deep:#5E410B;
+    --signal:#0E6E78; --signal-lit:#56C7D2; --signal-wash:#D8EBED;
+
+    --rule:#C6C0B2; --rule-dark:#3A4148;
+
+    --font-display:"Segoe UI Variable Display",ui-sans-serif,-apple-system,"Segoe UI",Roboto,system-ui,sans-serif;
+    --font-body:ui-sans-serif,-apple-system,"Segoe UI",Roboto,system-ui,sans-serif;
+    --font-human:Georgia,"Iowan Old Style","Times New Roman",serif;
+    --font-data:ui-monospace,"Cascadia Mono",Consolas,"SF Mono",Menlo,monospace;
+  }
+
+  * { box-sizing: border-box; }
+  html, body { height: 100%; }
+  body {
+    margin:0; background:var(--stone); color:var(--ink);
+    font-family:var(--font-body); line-height:1.5;
+    -webkit-font-smoothing:antialiased; overflow:hidden;
+  }
+
+  /* ---------- scenes ---------- */
+  .deck { position:relative; height:100%; width:100%; }
+  .scene {
+    position:absolute; inset:0; display:none;
+    flex-direction:column; justify-content:center;
+    padding:clamp(1.5rem,4.4vmin,4rem) clamp(1.3rem,6.5vw,5.5rem) clamp(4.2rem,9vmin,5.4rem);
+    overflow-y:auto; background:var(--stone); color:var(--ink);
+  }
+  .scene.is-active { display:flex; }
+
+  .scene.dark { background:var(--graphite); color:var(--on-dark); }
+  .scene.dark .eyebrow { color:var(--signal-lit); }
+  .scene.dark .lede, .scene.dark .display-sub, .scene.dark .credit { color:var(--on-dark-soft); }
+  .scene.dark .rule { background:var(--clay-lit); }
+  .scene.dark .quiet { background:var(--graphite-lift); color:var(--on-dark-soft); }
+  .scene.dark .quiet strong { color:var(--on-dark); }
+  .scene.dark figcaption { color:var(--on-dark-soft); }
+  .scene.dark a { color:var(--signal-lit); }
+  .scene.dark ul.plain li span span { color:var(--on-dark-soft); }
+  .scene.dark ul.plain .bullet { color:var(--clay-lit); }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .scene.is-active > * { animation:rise 400ms cubic-bezier(.22,.9,.3,1) both; }
+    .scene.is-active > *:nth-child(2) { animation-delay:65ms; }
+    .scene.is-active > *:nth-child(3) { animation-delay:115ms; }
+    @keyframes rise { from{opacity:0;transform:translateY(11px);} to{opacity:1;transform:none;} }
+  }
+
+  /* Scale ceilings are deliberately high. The vmin term governs on laptops and
+     projectors; the max only engages on large displays, where the old caps left
+     the deck marooned in dead space. */
+  .inner { max-width:68rem; width:100%; margin:0 auto; display:flex; flex-direction:column; gap:clamp(0.7rem,2.3vmin,1.9rem); }
+  .inner.wide { max-width:82rem; }
+
+  /* ---------- type ---------- */
+  .eyebrow { font-family:var(--font-data); font-size:clamp(0.62rem,1.25vmin,1rem); letter-spacing:0.18em; text-transform:uppercase; color:var(--signal); margin:0; }
+  h1 { font-family:var(--font-display); font-size:clamp(2.2rem,7.2vmin,6.4rem); line-height:1.0; letter-spacing:-0.035em; font-weight:700; margin:0; text-wrap:balance; }
+  h2 { font-family:var(--font-display); font-size:clamp(1.5rem,5.5vmin,4.1rem); line-height:1.06; letter-spacing:-0.028em; font-weight:700; margin:0; text-wrap:balance; }
+  h3 { font-size:clamp(0.98rem,2.6vmin,1.8rem); line-height:1.18; font-weight:650; margin:0; letter-spacing:-0.012em; }
+  p { margin:0; font-size:clamp(0.94rem,2.25vmin,1.5rem); }
+  .lede { color:var(--ink-soft); max-width:48ch; }
+  .display-sub { font-family:var(--font-human); font-size:clamp(1.05rem,2.8vmin,2.3rem); line-height:1.26; color:var(--ink-soft); margin:0; text-wrap:balance; max-width:34ch; }
+  .huge { font-family:var(--font-human); font-size:clamp(1.8rem,6.2vmin,5.4rem); line-height:1.1; letter-spacing:-0.022em; margin:0; text-wrap:balance; max-width:21ch; }
+  .huge em { font-style:italic; color:var(--clay); }
+  .scene.dark .huge em { color:var(--clay-lit); }
+  .credit { font-family:var(--font-data); font-size:clamp(0.76rem,1.65vmin,1rem); letter-spacing:0.05em; color:var(--ink-faint); margin:0; }
+  strong { font-weight:650; }
+  a { color:var(--signal); text-underline-offset:3px; }
+  .rule { height:4px; width:4.5rem; background:var(--clay); border:none; margin:0; }
+
+  :focus-visible { outline:3px solid var(--signal); outline-offset:3px; border-radius:3px; }
+  .scene.dark :focus-visible { outline-color:var(--signal-lit); }
+
+  /* ---------- static components ---------- */
+
+  /* --- four-minute table audit --- */
+  .activity-steps { display:grid; grid-template-columns:repeat(2,1fr); gap:clamp(0.8rem,2vmin,1.25rem) clamp(1.2rem,3vmin,2rem); }
+  .activity-step {
+    min-width:0; border-top:4px solid var(--signal); padding:clamp(0.6rem,1.5vmin,1rem) 0 0;
+    display:grid; grid-template-columns:2.2rem 1fr; column-gap:clamp(0.5rem,1.2vmin,0.8rem); row-gap:0.2rem;
+  }
+  .activity-step .step-number { grid-row:1 / 3; font-family:var(--font-data); color:var(--signal); font-size:clamp(0.78rem,1.6vmin,1rem); font-weight:700; letter-spacing:0.12em; }
+  .activity-step h3 { font-size:clamp(1rem,2.4vmin,1.5rem); }
+  .activity-step p { color:var(--ink-soft); font-size:clamp(0.88rem,1.85vmin,1.12rem); line-height:1.4; }
+  .activity-output { border-left:5px solid var(--clay); }
+  .activity-output strong { color:var(--clay-deep); }
+  @media (max-width:48rem){ .activity-steps{grid-template-columns:1fr;} }
+
+
+
+  /* --- two-column contrast panel --- */
+  .contrast { display:grid; grid-template-columns:1fr 1fr; gap:clamp(0.6rem,1.8vmin,1.3rem); }
+  @media (max-width:48rem){ .contrast{grid-template-columns:1fr;} }
+  .col {
+    background:var(--stone-lift); border:1px solid var(--rule); border-radius:3px;
+    padding:clamp(0.8rem,2.1vmin,1.4rem); display:flex; flex-direction:column; gap:0.55rem;
+  }
+  .col--counts { border-top:5px solid var(--signal); }
+  .col--blind { border-top:5px solid var(--clay); }
+  .col h3 { font-size:clamp(0.98rem,2.5vmin,1.6rem); }
+  .col ul { list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:0.4rem; }
+  .col li { display:flex; gap:0.6rem; align-items:baseline; font-size:clamp(0.88rem,2.1vmin,1.3rem); color:var(--ink-soft); }
+  .col li::before { content:"\2014"; color:var(--ink-faint); flex:0 0 auto; }
+  .col--blind li::before { content:"?"; color:var(--clay); font-weight:700; }
+
+  .tagline { font-family:var(--font-data); font-size:clamp(0.68rem,1.45vmin,0.88rem); letter-spacing:0.14em; text-transform:uppercase; padding:0.22rem 0.55rem; border-radius:2px; align-self:flex-start; }
+  .tagline--reduce { background:var(--ochre-wash); color:var(--ochre); }
+
+  ul.plain { margin:0; padding-left:1.5rem; display:flex; flex-direction:column; gap:clamp(0.38rem,1.1vmin,0.75rem); font-size:clamp(0.93rem,1.95vmin,1.22rem); }
+  ul.plain { list-style:none; padding-left:0; }
+  ul.plain li span span { display:block; color:var(--ink-soft); font-size:clamp(0.8rem,1.6vmin,0.98rem); margin-top:0.1rem; }
+  ul.plain li { display:flex; gap:0.75rem; align-items:baseline; }
+  ul.plain .bullet { color:var(--clay); font-weight:700; flex:0 0 auto; font-family:var(--font-data); }
+  .resource-grid { display:grid; grid-template-columns:minmax(0,1fr) clamp(11rem,22vw,15rem); gap:clamp(1rem,4vw,3rem); align-items:center; }
+  .resource-scan { text-align:center; }
+  .resource-scan img { display:block; width:min(100%,13rem); height:auto; margin:0 auto; background:#FFFFFF; border:1px solid var(--rule); }
+  .resource-scan p { margin-top:0.6rem; font-size:clamp(0.8rem,1.7vmin,1rem); color:var(--ink-soft); }
+  @media (max-width:48rem){
+    .resource-grid { grid-template-columns:1fr; }
+    .resource-scan { display:flex; align-items:center; gap:1rem; text-align:left; }
+    .resource-scan img { width:7rem; margin:0; }
+  }
+  /* Survey invitation (approved notice B, verbatim) */
+  .survey-title { font-size:clamp(1.25rem,4.1vmin,3rem); }
+  .survey-grid { grid-template-columns:minmax(0,1fr) clamp(12rem,40vmin,24rem); }
+  .survey-grid .resource-scan img { width:100%; }
+  .survey-grid .resource-scan p { font-family:var(--font-data); font-weight:700; color:var(--ink); }
+  .survey-notice { margin:0; font-size:clamp(0.85rem,2.2vmin,1.4rem); line-height:1.5; color:var(--ink-soft); }
+  .survey-notice a { font-weight:700; word-break:break-all; }
+  @media (max-width:48rem){
+    .survey-grid { grid-template-columns:1fr; }
+    .survey-grid .resource-scan img { width:9rem; }
+  }
+
+  .split { display:grid; grid-template-columns:1fr 1fr; gap:clamp(0.7rem,2.4vmin,1.9rem); align-items:start; }
+  .split--fig { grid-template-columns:1.05fr 1fr; align-items:center; }
+  @media (max-width:48rem){ .split,.split--fig{grid-template-columns:1fr;} }
+
+  .quiet { background:var(--stone-sink); border-radius:3px; padding:clamp(0.7rem,1.9vmin,1.2rem); font-size:clamp(0.86rem,1.8vmin,1.1rem); color:var(--ink-soft); }
+  .quiet strong { color:var(--ink); }
+
+  figure { margin:0; display:flex; flex-direction:column; gap:0.45rem; }
+  figure svg { width:100%; height:auto; max-height:44vh; display:block; }
+  figcaption { font-family:var(--font-data); font-size:clamp(0.78rem,1.75vmin,1rem); letter-spacing:0.06em; color:var(--ink-faint); line-height:1.45; }
+  .chart-clarifier { font-size:clamp(0.88rem,1.8vmin,1.08rem); color:var(--on-dark-soft); margin-bottom:0.45rem; }
+
+  /* ================= INTERACTIVE ================= */
+
+  .hint {
+    font-family:var(--font-data); font-size:clamp(0.7rem,1.5vmin,0.9rem);
+    letter-spacing:0.1em; text-transform:uppercase; color:var(--signal);
+    display:flex; align-items:center; gap:0.4rem;
+  }
+  .hint::before { content:"\25B8"; font-size:0.8em; }
+  .scene.dark .hint { color:var(--signal-lit); }
+
+  /* --- Head / Room / World nodes --- */
+  .nodes { display:grid; grid-template-columns:repeat(3,1fr); gap:clamp(0.5rem,1.4vmin,0.9rem); }
+  @media (max-width:44rem){ .nodes{grid-template-columns:1fr;} }
+
+  .node {
+    text-align:left; font-family:var(--font-body); text-transform:none; letter-spacing:0;
+    background:var(--stone-lift); border:2px solid var(--clay); border-radius:4px;
+    padding:clamp(0.7rem,1.9vmin,1.15rem); cursor:pointer;
+    display:flex; flex-direction:column; gap:0.28rem; color:var(--ink);
+    transition:background 160ms ease, transform 160ms ease;
+  }
+  @media (prefers-reduced-motion:reduce){ .node{transition:none;} }
+  .node:hover { background:var(--clay-wash); }
+  .node[aria-pressed="true"] { background:var(--clay); border-color:var(--clay-deep); transform:translateY(-2px); }
+  .node[aria-pressed="true"] .node-name,
+  .node[aria-pressed="true"] .node-term,
+  .node[aria-pressed="true"] .node-line { color:#FFFFFF; }
+  .node-name { font-family:var(--font-display); font-size:clamp(1.15rem,2.9vmin,1.8rem); font-weight:700; letter-spacing:-0.02em; color:var(--clay-deep); }
+  .node-term { font-family:var(--font-data); font-size:clamp(0.68rem,1.45vmin,0.85rem); letter-spacing:0.12em; text-transform:uppercase; color:var(--ink-faint); }
+  .node-line { font-size:clamp(0.83rem,1.65vmin,1rem); color:var(--ink-soft); }
+
+  .node-detail {
+    display:none; flex-direction:column; gap:0.5rem;
+    background:var(--stone-lift); border-left:5px solid var(--clay);
+    border-radius:3px; padding:clamp(0.75rem,2vmin,1.25rem);
+  }
+  .node-detail.is-shown { display:flex; }
+  .node-detail .dl-label { font-family:var(--font-data); font-size:clamp(0.68rem,1.45vmin,0.85rem); letter-spacing:0.13em; text-transform:uppercase; color:var(--clay); }
+  .node-detail p { font-size:clamp(0.88rem,1.8vmin,1.1rem); }
+  .node-detail .bypass { color:var(--clay-deep); font-weight:650; }
+
+  /* --- generic reveal --- */
+  .reveal-btn {
+    align-self:flex-start; font-family:var(--font-data); font-size:clamp(0.72rem,1.55vmin,0.95rem);
+    letter-spacing:0.12em; text-transform:uppercase;
+    background:var(--signal); color:#FFFFFF; border:2px solid var(--signal);
+    border-radius:3px; padding:0.42rem 0.85rem; cursor:pointer;
+  }
+  .reveal-btn:hover { background:#0B5B63; border-color:#0B5B63; }
+  .scene.dark .reveal-btn { background:var(--signal-lit); border-color:var(--signal-lit); color:#12262A; }
+  .scene.dark .reveal-btn:hover { background:#7FD8E1; border-color:#7FD8E1; }
+
+  .verdict-strip {
+    background:var(--clay); color:#FFFFFF; border-radius:3px;
+    padding:clamp(0.65rem,1.8vmin,1.1rem);
+    font-size:clamp(1rem,2.3vmin,1.45rem); font-weight:650;
+    align-items:center; gap:0.8rem; flex-wrap:wrap;
+  }
+
+  /* Declared after .verdict-strip so the hidden state wins the cascade;
+     both rules are single-class, so source order decides. */
+  .revealable { display:none; }
+  .revealable.is-shown { display:flex; }
+  .verdict-strip .vs-small { font-family:var(--font-data); font-size:clamp(0.68rem,1.45vmin,0.86rem); letter-spacing:0.12em; text-transform:uppercase; opacity:0.9; }
+
+  /* --- expandable question list --- */
+  .qlist { display:flex; flex-direction:column; gap:0.42rem; }
+  .qrow {
+    text-align:left; font-family:var(--font-body); text-transform:none; letter-spacing:0;
+    background:var(--stone-lift); border:1px solid var(--rule); border-left:5px solid var(--signal);
+    border-radius:3px; padding:clamp(0.6rem,1.6vmin,1rem) clamp(0.75rem,2vmin,1.15rem);
+    cursor:pointer; color:var(--ink); display:flex; gap:0.9rem; align-items:baseline;
+  }
+  .qrow:hover { background:var(--signal-wash); }
+  .qrow .qn { font-family:var(--font-data); font-weight:700; color:var(--signal); flex:0 0 auto; font-size:clamp(0.8rem,1.7vmin,1rem); }
+  .qrow .qbody { display:flex; flex-direction:column; gap:0.3rem; }
+  .qrow .qq { font-size:clamp(0.95rem,2vmin,1.24rem); font-weight:650; }
+  .qrow .qwhy { display:none; font-size:clamp(0.82rem,1.65vmin,1rem); color:var(--ink-soft); }
+  .qrow[aria-expanded="true"] { border-left-color:var(--clay); background:var(--stone-lift); }
+  .qrow[aria-expanded="true"] .qwhy { display:block; }
+  .qrow[aria-expanded="true"] .qn { color:var(--clay); }
+
+  /* --- tool sorter --- */
+  .sorter { display:flex; flex-direction:column; gap:clamp(0.55rem,1.5vmin,0.95rem); }
+  .chips { display:flex; flex-wrap:wrap; gap:0.4rem; }
+  .chip {
+    font-family:var(--font-body); text-transform:none; letter-spacing:0;
+    background:var(--stone-lift); border:1px solid var(--rule); border-radius:999px;
+    padding:0.4rem 0.85rem; cursor:pointer; color:var(--ink);
+    font-size:clamp(0.86rem,1.8vmin,1.08rem);
+  }
+  .chip:hover { border-color:var(--signal); color:var(--signal); }
+  .chip[aria-pressed="true"] { background:var(--ink); border-color:var(--ink); color:var(--stone); }
+
+  .sorter-stage { display:grid; grid-template-columns:1.1fr 1fr; gap:clamp(0.7rem,2vmin,1.4rem); align-items:center; }
+  @media (max-width:48rem){ .sorter-stage{grid-template-columns:1fr;} }
+
+  .mini { display:flex; flex-direction:column; gap:0.3rem; }
+  .mini-row { display:grid; grid-template-columns:repeat(3,1fr); gap:0.3rem; }
+  .mini-cell, .mini-base {
+    border:2px solid var(--rule); border-radius:3px; background:var(--stone-lift);
+    padding:clamp(0.4rem,1.2vmin,0.7rem) 0.4rem; text-align:center;
+    font-size:clamp(0.8rem,1.7vmin,1rem); font-weight:650; color:var(--ink-faint);
+  }
+  .mini-cell.on { background:var(--clay); border-color:var(--clay-deep); color:#FFFFFF; }
+  .mini-base.on { background:var(--ochre); border-color:var(--ochre-deep); color:#FFFFFF; }
+  .mini-cell.maybe, .mini-base.maybe { background:var(--stone-sink); border-color:var(--ink-faint); border-style:dashed; color:var(--ink); }
+  .mini-base { text-align:center; }
+
+  .sorter-verdict { display:flex; flex-direction:column; gap:0.45rem; min-height:6.5rem; }
+  .sv-tag { font-family:var(--font-data); font-size:clamp(0.68rem,1.45vmin,0.86rem); letter-spacing:0.13em; text-transform:uppercase; align-self:flex-start; padding:0.2rem 0.5rem; border-radius:2px; }
+  .sv-tag.good { background:var(--ochre-wash); color:var(--ochre); }
+  .sv-tag.bypass { background:var(--clay-wash); color:var(--clay); }
+  .sv-tag.depends { background:var(--signal-wash); color:var(--signal); }
+  .sv-text { font-size:clamp(0.9rem,1.9vmin,1.15rem); }
+
+
+  /* --- expandable example rows (table audit) --- */
+  .vrows { display:flex; flex-direction:column; gap:0.4rem; }
+  .vrow {
+    text-align:left; font-family:var(--font-body); text-transform:none; letter-spacing:0;
+    background:var(--stone-lift); border:1px solid var(--rule); border-radius:3px;
+    padding:clamp(0.55rem,1.5vmin,0.95rem) clamp(0.7rem,1.9vmin,1.1rem);
+    cursor:pointer; color:var(--ink); display:flex; flex-direction:column; gap:0.3rem;
+  }
+  .vrow:hover { background:var(--stone-sink); }
+  .vrow .vlabel { font-family:var(--font-data); font-size:clamp(0.7rem,1.5vmin,0.9rem); letter-spacing:0.13em; text-transform:uppercase; color:var(--ink-faint); display:flex; align-items:center; gap:0.5rem; }
+  .vrow .vlabel::after { content:"+"; font-size:1.1em; color:var(--signal); }
+  .vrow[aria-expanded="true"] .vlabel::after { content:"\2212"; }
+  .vrow .vvalue { display:none; font-size:clamp(0.88rem,1.85vmin,1.12rem); }
+  .vrow[aria-expanded="true"] .vvalue { display:block; }
+  .vrow--ex { border-left:5px solid var(--signal); padding-top:clamp(0.4rem,1.1vmin,0.7rem); padding-bottom:clamp(0.4rem,1.1vmin,0.7rem); }
+  .vrow--ex .vlabel { color:var(--signal); }
+  .examples { display:flex; flex-direction:column; gap:0.35rem; }
+  .examples .ex-head { font-family:var(--font-data); font-size:clamp(0.68rem,1.45vmin,0.86rem); letter-spacing:0.12em; text-transform:uppercase; color:var(--ink-faint); }
+
+
+  /* ---------- figures ---------- */
+  .fig-anim svg { max-height:40vh; }
+  .fig-stages svg { max-height:42vh; }
+
+  /* --- the base: remove the barriers --- */
+  .barrier-fig .blocked { transition:transform 750ms cubic-bezier(.22,.9,.3,1); transition-delay:var(--d,0s); }
+  .barrier-fig .barrier { transition:opacity 380ms ease, transform 380ms ease; transform-box:fill-box; transform-origin:center; }
+  .barrier-fig .eased, .barrier-fig .count-cleared { opacity:0; transition:opacity 400ms ease 350ms; }
+  .barrier-fig .count-blocked { transition:opacity 300ms ease; }
+  .barrier-fig.is-cleared .blocked { transform:translateY(-134px); }
+  .barrier-fig.is-cleared .barrier { opacity:0; transform:scaleY(0.2); }
+  .barrier-fig.is-cleared .eased, .barrier-fig.is-cleared .count-cleared { opacity:1; }
+  .barrier-fig.is-cleared .count-blocked, .barrier-fig.is-cleared .gapline { opacity:0; }
+  .barrier-fig .gapline { transition:opacity 300ms ease; }
+  @media (prefers-reduced-motion:reduce){ .barrier-fig * { transition:none !important; } }
+  .fig-actions { display:flex; flex-wrap:wrap; gap:0.5rem; align-items:center; }
+
+  /* ---------- opening video ---------- */
+  .inner.opening-layout { display:grid; grid-template-columns:minmax(0,1fr) clamp(12rem,27vmin,17rem); align-items:center; gap:clamp(1.5rem,4vw,3.5rem); }
+  .opening-copy { display:flex; flex-direction:column; gap:clamp(0.7rem,2.3vmin,1.9rem); min-width:0; }
+  .opening-qr { margin:0; }
+  .opening-qr img { display:block; width:100%; height:auto; background:#fff; }
+  .opening-qr figcaption { margin-top:0.75rem; font-family:var(--font-data); font-size:clamp(0.85rem,1.8vmin,1.1rem); line-height:1.4; text-align:center; color:var(--on-dark-soft); }
+  @media (max-width:700px) {
+    .inner.opening-layout { grid-template-columns:1fr; }
+    .opening-qr { width:10rem; justify-self:start; }
+  }
+  .opener-actions { display:flex; flex-wrap:wrap; gap:0.6rem; }
+  .opener-launch {
+    align-self:flex-start; padding:0.65rem 1rem; border:1px solid var(--signal-lit);
+    border-radius:3px; background:var(--graphite-lift); color:var(--on-dark);
+    font:inherit; font-size:clamp(0.9rem,1.9vmin,1.25rem); cursor:pointer;
+  }
+  .opener-launch:hover { background:var(--signal); }
+
+  /* A scene clip launched from a light slide uses the deck's button language. */
+  .opener-launch.scene-launch {
+    font-family:var(--font-data); font-size:clamp(0.72rem,1.55vmin,0.95rem); letter-spacing:0.12em; text-transform:uppercase;
+    background:transparent; color:var(--signal); border:2px solid var(--signal); padding:0.42rem 0.85rem;
+  }
+  .opener-launch.scene-launch:hover { background:var(--signal-wash); }
+  .opener-launch.scene-launch::before { content:"\25B6\00A0"; font-size:0.85em; }
+  .opener-backups { display:flex; flex-wrap:wrap; gap:0.4rem 2rem; font-size:clamp(0.82rem,1.8vmin,1.1rem); color:var(--on-dark-soft); }
+  .opener-backups p { margin:0; }
+  .opener-backups a { margin-left:0.6rem; }
+  .opener {
+    width:min(calc(100vw - 2rem),calc((100dvh - 10rem) * 16 / 9),90rem);
+    max-height:calc(100dvh - 2rem); padding:1rem; border:1px solid var(--rule-dark);
+    border-radius:4px; background:var(--graphite); color:var(--on-dark);
+  }
+  .opener::backdrop { background:rgba(0,0,0,0.88); }
+  .opener-head { display:flex; justify-content:space-between; align-items:center; gap:1rem; margin-bottom:0.75rem; }
+  .opener-head h2 { font-size:clamp(1rem,2.5vmin,1.5rem); }
+  .opener video { display:block; width:100%; max-height:calc(100dvh - 10rem); background:#000; }
+  .opener .credit { display:flex; flex-wrap:wrap; gap:0.5rem 1.25rem; margin-top:0.75rem; color:var(--on-dark-soft); }
+  .opener a { color:var(--signal-lit); }
+  .opener :focus-visible { outline-color:var(--signal-lit); }
+  .opener-error { margin-top:0.75rem; font-size:1rem; }
+
+  /* ---------- chrome ---------- */
+  .progress { position:fixed; top:0; left:0; height:4px; background:var(--clay); width:0; z-index:40; transition:width 260ms ease; }
+  @media (prefers-reduced-motion:reduce){ .progress{transition:none;} }
+
+  .rail { position:fixed; bottom:2.35rem; left:0; right:0; z-index:29; display:flex; gap:2px; padding:0 clamp(0.6rem,3vw,1.6rem); }
+  .rail-seg {
+    flex:1; font-family:var(--font-data); font-size:0.58rem; letter-spacing:0.09em; text-transform:uppercase;
+    background:transparent; border:none; border-top:3px solid var(--rule);
+    padding:0.3rem 0 0; cursor:pointer; color:var(--ink-faint); text-align:left;
+  }
+  .rail-seg:hover { color:var(--signal); border-top-color:var(--signal); }
+  .rail-seg.is-current { color:var(--clay); border-top-color:var(--clay); font-weight:700; }
+  .scene-dark-active .rail-seg { color:var(--on-dark-soft); border-top-color:var(--rule-dark); }
+  .scene-dark-active .rail-seg.is-current { color:var(--clay-lit); border-top-color:var(--clay-lit); }
+  @media (max-width:44rem){ .rail{display:none;} }
+
+  .chrome { position:fixed; bottom:0; left:0; right:0; z-index:30; display:flex; align-items:center; justify-content:space-between; gap:0.8rem; padding:0.4rem clamp(0.6rem,3vw,1.6rem); }
+  .chrome-left { font-family:var(--font-data); font-size:0.68rem; letter-spacing:0.06em; color:var(--ink-faint); }
+  .scene-dark-active .chrome-left { color:var(--on-dark-soft); }
+  .controls { display:flex; gap:0.3rem; align-items:center; }
+
+  button.ctl {
+    font-family:var(--font-data); font-size:0.67rem; letter-spacing:0.08em; text-transform:uppercase;
+    color:var(--ink-soft); background:var(--stone-lift); border:1px solid var(--rule);
+    border-radius:3px; padding:0.34rem 0.6rem; cursor:pointer; line-height:1;
+  }
+  button.ctl:hover:not(:disabled) { color:var(--signal); border-color:var(--signal); }
+  button.ctl:disabled { opacity:0.36; cursor:default; }
+  .scene-dark-active button.ctl { background:var(--graphite-lift); border-color:var(--rule-dark); color:var(--on-dark-soft); }
+  .scene-dark-active button.ctl:hover:not(:disabled) { color:var(--signal-lit); border-color:var(--signal-lit); }
+  .ctl.running { color:var(--clay); border-color:var(--clay); }
+  .counter { font-variant-numeric:tabular-nums; min-width:3.8rem; text-align:center; }
+
+  .overview { position:fixed; inset:0; z-index:50; background:var(--stone); padding:clamp(1rem,4vmin,2.4rem); overflow-y:auto; display:none; }
+  .overview.is-open { display:block; }
+  .thumbs { display:grid; grid-template-columns:repeat(auto-fill,minmax(10rem,1fr)); gap:0.5rem; margin-top:1rem; }
+  .thumb { text-align:left; font-family:var(--font-body); font-size:0.8rem; text-transform:none; letter-spacing:0; padding:0.6rem 0.7rem; line-height:1.3; color:var(--ink); background:var(--stone-lift); border:1px solid var(--rule); border-radius:3px; cursor:pointer; display:flex; flex-direction:column; gap:0.2rem; min-height:4rem; }
+  .thumb .n { font-family:var(--font-data); font-size:0.6rem; color:var(--ink-faint); letter-spacing:0.1em; }
+  .thumb.is-current { border-color:var(--clay); background:var(--clay-wash); }
+
+  .notes { position:fixed; left:0; right:0; bottom:0; z-index:35; background:var(--stone-lift); border-top:3px solid var(--clay); padding:0.85rem clamp(0.6rem,3vw,1.6rem) 2.6rem; font-size:0.9rem; color:var(--ink-soft); display:none; max-height:40vh; overflow-y:auto; }
+  .notes.is-open { display:block; }
+  .notes .label { font-family:var(--font-data); font-size:0.6rem; letter-spacing:0.14em; text-transform:uppercase; color:var(--clay); display:block; margin-bottom:0.3rem; }
+
+  .sr-only { position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0,0,0,0); white-space:nowrap; border:0; }
+  /* IETC additions */
+  .refs-list { display:flex; flex-direction:column; gap:0.55rem; max-width:110ch; }
+  .refs-list p { font-size:clamp(0.78rem,1.65vmin,1rem); line-height:1.4; padding-left:2em; text-indent:-2em; color:var(--ink-soft); margin:0; }
+  .scene.dark .display-sub strong { color:var(--on-dark); }
+  .study-rq { font-family:var(--font-human); font-size:clamp(1rem,2.5vmin,1.6rem); line-height:1.35; border-left:4px solid var(--clay); padding-left:1rem; margin:0; }
+</style>
+</head>
+<body>
+
+<div class="progress" id="progress"></div>
+
+<main class="deck" id="deck">
+
+  <!-- 1 --><section class="scene dark" data-sec="Opening" data-notes="Open here while people settle. Invite attendees to scan the code to follow along; it opens this public deck at slide 1. Play Maya's essay when the room is ready, then press Back to presentation or Escape and advance to the questions. Do not talk over the room. Wait for quiet. Badge scans handle attendance and PD credit, so there is no sign-in sheet. Pacing target: start the two questions by minute 1.">
+    <div class="inner opening-layout">
+      <div class="opening-copy">
+      <p class="eyebrow">IETC 2026 &middot; Thursday, November 12 &middot; DoubleTree, Salon C</p>
+      <h1>The Great Bypass</h1>
+      <p class="display-sub">Pedagogical friction as response to tertiary algorithmicity in the age of algorithms and AI.</p>
+      <hr class="rule">
+      <p class="credit">Micah J. Miner, CETL, Ed.S. &middot; Director of Innovation &amp; Technology, Beach Park CCSD 3 &middot; Ed.D. Candidate, National Louis University &middot; Author, <em>AI Goes to School</em></p>
+      <div class="opener-actions">
+        <button class="opener-launch" id="btnMayaOpener" type="button" aria-haspopup="dialog" aria-controls="opener" data-video="assets/mayas-essay-opener.mp4" data-youtube="https://youtu.be/ZL2OTAgw05I" data-drive="https://drive.google.com/file/d/11eBjpBlkZd04eP-zko-qvKscFqIaqYiq/view?usp=sharing" data-video-title="Maya's essay video">Play Maya's essay</button>
+      </div>
+      <div class="opener-backups" aria-label="Opening video links">
+        <p>Maya's essay:<a href="https://youtu.be/ZL2OTAgw05I" target="_blank" rel="noopener" aria-label="Watch Maya's essay on YouTube">YouTube</a><a href="https://drive.google.com/file/d/11eBjpBlkZd04eP-zko-qvKscFqIaqYiq/view?usp=sharing" target="_blank" rel="noopener" aria-label="Watch Maya's essay in Google Drive">Google Drive</a></p>
+      </div>
+      </div>
+      <figure class="opening-qr">
+        <a href="https://minerclass.github.io/ietc-2026-great-bypass/#1"><img src="assets/opening-qr.svg" width="256" height="256" alt="QR code to open this public presentation at slide 1"></a>
+        <figcaption>Scan to follow along<br>Slides &amp; resources</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <!-- 2 --><section class="scene" data-sec="Opening" data-notes="Do not advance yet. Ask for hands or table talk. Thirty seconds feels long from the stage and is right from the floor.">
+    <div class="inner">
+      <p class="eyebrow">Before we start</p>
+      <h2>Two questions.</h2>
+      <p class="lede">Talk to the people at your table. I want honest answers, not impressive ones.</p>
+    </div>
+  </section>
+
+  <!-- 3 --><section class="scene dark" data-sec="Opening" data-notes="Give tables thirty seconds, then take two or three answers aloud. This room mixes teachers, coaches, and leaders, so expect both classroom and office answers: first drafts, lesson planning, translation, scheduling, paperwork. Respond to what people actually say.">
+    <div class="inner">
+      <p class="eyebrow">Question one</p>
+      <p class="huge">Name one thing that got <em>easier</em> in your classroom, school, or district this year because of AI.</p>
+    </div>
+  </section>
+
+  <!-- 4 --><section class="scene dark" data-sec="Opening" data-notes="Give the room time to think. If there is silence, let it sit before moving on. If someone offers a credible example, welcome it and ask: What evidence makes you confident? Use the answer to distinguish student capability from polished output. Do not manufacture a gap the room did not report.">
+    <div class="inner">
+      <p class="eyebrow">Question two</p>
+      <p class="huge">Now name one thing your students got <em>better</em> at because of AI.</p>
+    </div>
+  </section>
+
+  <!-- 5 --><section class="scene" data-sec="Opening" data-notes="Name what the room actually reported: a gap in evidence, uncertainty, or a credible example of student growth. Avoid scolding anyone. The two questions measure different things, even when a school can answer both. Point at the columns and land the last line slowly. What should stay difficult is the question the session carries. Pacing target: finish the opening by minute 7.">
+    <div class="inner wide">
+      <p class="eyebrow">The gap</p>
+      <h2>Those are not the same question.</h2>
+      <div class="contrast">
+        <div class="col col--counts">
+          <h3>"Got easier"</h3>
+          <ul>
+            <li>Mostly about adults</li>
+            <li>Measured in workload</li>
+            <li>Visible this year</li>
+            <li>Easy to point to</li>
+          </ul>
+        </div>
+        <div class="col col--blind">
+          <h3>"Got better"</h3>
+          <ul>
+            <li>About students</li>
+            <li>Measured in capability</li>
+            <li>Visible in independent work</li>
+            <li>Harder to infer from output alone</li>
+          </ul>
+        </div>
+      </div>
+      <p class="lede">It is easy to answer the first and believe we have answered the second. The question underneath both is the one this session is about: <strong>what should stay difficult?</strong></p>
+    </div>
+  </section>
+
+  <!-- 6 --><section class="scene" data-sec="The bypass" data-notes="THE HINGE. Walk both bars slowly BEFORE clicking reveal. Ask the room what the dashboard says. Then click. Let the word Identical sit. EXPECT PUSHBACK: someone may say Docs version history or process logs can tell them apart. Agree that some tools capture process, then add: most district dashboards do not surface it, and a process log still is not the thinking. Somebody has to look.">
+    <div class="inner wide">
+      <p class="eyebrow">Why the metric fails</p>
+      <h2>Two students. Forty-five minutes each.</h2>
+      <figure>
+        <svg viewBox="0 0 900 210" role="img" aria-label="Two students each spend forty-five minutes on a device. Student A's time is composed of reading conflicting sources, arguing, drafting and rewriting. Student B's is composed of prompting, waiting and light editing.">
+          <text x="0" y="26" font-size="17" font-weight="700" fill="currentColor">Student A</text>
+          <rect x="0" y="40" width="248" height="46" fill="#A63D26"/>
+          <rect x="250" y="40" width="180" height="46" fill="#B04E36"/>
+          <rect x="432" y="40" width="196" height="46" fill="#78540F"/>
+          <rect x="630" y="40" width="170" height="46" fill="#A63D26"/>
+          <text x="10" y="69" font-size="13" fill="#FFFFFF">Read 4 conflicting sources</text>
+          <text x="260" y="69" font-size="13" fill="#FFFFFF">Argued with a partner</text>
+          <text x="442" y="69" font-size="13" fill="#FFFFFF">Threw out a draft</text>
+          <text x="640" y="69" font-size="13" fill="#FFFFFF">Rewrote it</text>
+          <text x="812" y="69" font-size="14" font-weight="700" fill="currentColor">45 min</text>
+
+          <text x="0" y="132" font-size="17" font-weight="700" fill="currentColor">Student B</text>
+          <rect x="0" y="146" width="86" height="46" fill="#0E6E78"/>
+          <rect x="88" y="146" width="618" height="46" fill="#9FBEC2"/>
+          <rect x="708" y="146" width="92" height="46" fill="#0E6E78"/>
+          <text x="8" y="175" font-size="13" fill="#FFFFFF">Prompt</text>
+          <text x="98" y="175" font-size="13" fill="#1E2328">Waited, scrolled, skimmed the output</text>
+          <text x="716" y="175" font-size="13" fill="#FFFFFF">Edited 3 words</text>
+          <text x="812" y="175" font-size="14" font-weight="700" fill="currentColor">45 min</text>
+        </svg>
+        <figcaption>Same device, same minutes, same completion flag.</figcaption>
+      </figure>
+      <button class="reveal-btn" type="button" data-reveal="dash10" aria-expanded="false">What does your dashboard say?</button>
+      <div class="revealable verdict-strip" id="dash10">
+        <span class="vs-small">Both students</span> 45 min &middot; complete &middot; on task
+        <span class="vs-small">Your data cannot tell them apart.</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- 7 --><section class="scene dark" data-sec="The bypass" data-notes="The pivot. Say the large line once, cleanly, and let the slide hold. Then read the line below it and name it: this is what I call the Great Bypass.">
+    <div class="inner">
+      <p class="eyebrow">The better question</p>
+      <p class="huge">Not how long the screen was on. <em>What the screen made easy.</em></p>
+      <hr class="rule">
+      <p class="display-sub"><strong>This is the Great Bypass.</strong> The screen looks the same whether the student did the work or the work went around the student.</p>
+    </div>
+  </section>
+
+  <!-- 8 --><section class="scene" data-sec="The bypass" data-notes="About three minutes. This is the learning science the session description promises. Desirable difficulties: Bjork and Bjork (2011) describe conditions that slow performance during practice, such as spacing, retrieval, generation, and varied practice, yet strengthen long-term retention and transfer. Productive failure: Kapur (2008) found that students who struggle with a problem before instruction can understand it more deeply afterward. Then name the Great Bypass: generative AI makes each of these difficulties optional by default, and the finished product still appears. Do not overclaim. These are findings about practice and instruction, not studies of generative AI. Pacing target: reach unproductive success by minute 13.">
+    <div class="inner wide">
+      <p class="eyebrow">What learning science says</p>
+      <h2>Some difficulty is how learning happens.</h2>
+      <div class="activity-steps" aria-label="Learning science behind pedagogical friction">
+        <div class="activity-step"><span class="step-number">01</span><h3>Desirable difficulties</h3><p>Spacing, retrieval, and generating an answer slow performance in the moment and strengthen what lasts (Bjork &amp; Bjork, 2011).</p></div>
+        <div class="activity-step"><span class="step-number">02</span><h3>Productive failure</h3><p>Struggling with a problem before instruction can deepen understanding afterward (Kapur, 2008).</p></div>
+        <div class="activity-step"><span class="step-number">03</span><h3>Performance is not learning</h3><p>A correct product can arrive without the understanding it was supposed to show (Kapur, 2016).</p></div>
+        <div class="activity-step"><span class="step-number">04</span><h3>The Great Bypass</h3><p>Generative AI makes each of these difficulties optional by default. The product still appears.</p></div>
+      </div>
+      <div class="quiet" style="margin-top:clamp(0.7rem,2vmin,1.2rem);"><strong>The question is not whether students use AI.</strong> It is which difficulty the use removes, and whether that difficulty was the learning.</div>
+    </div>
+  </section>
+
+  <!-- 9 --><section class="scene dark" data-sec="The bypass" data-notes="INTERACTIVE. This picks up card 03 on the last slide: performance is not learning. This is a conceptual illustration, not measured student data. Show the rising line first and ask what it means. Most rooms read it as good news. THEN click to add the flat line. Trace the possible gap with your hand. Independent work is how leaders could test for it. Credit the term aloud: unproductive success comes from Manu Kapur (2016, Educational Psychologist); the i.e.: inquiry in education article extends it to generative AI. The caption link is the September 29 ISBE Weekly. Do not name the student. If you use it, say an Illinois student wrote that top grades and a perfect GPA can arrive without the skills those grades are supposed to represent. Pacing target: reach the five stages by minute 15.">
+    <div class="inner wide">
+      <p class="eyebrow">Researchers call this unproductive success</p>
+      <h2>Green dashboard, unfinished learning</h2>
+      <p class="chart-clarifier">Illustrative pattern, not measured student data.</p>
+      <figure>
+        <svg viewBox="0 0 900 260" role="img" aria-label="Conceptual illustration, not measured student data: visible output quality rises over a school year while independent work might reveal less learning. The widening gap is a risk to investigate, not an observed result.">
+          <line x1="70" y1="210" x2="860" y2="210" stroke="#AFB6BC" stroke-width="1.5"/>
+          <line x1="70" y1="24" x2="70" y2="210" stroke="#AFB6BC" stroke-width="1.5"/>
+          <text x="78" y="230" font-size="13" fill="#AFB6BC">Sept</text>
+          <text x="420" y="230" font-size="13" fill="#AFB6BC">January</text>
+          <text x="820" y="230" font-size="13" fill="#AFB6BC">May</text>
+          <polyline points="70,180 220,150 380,118 540,94 700,76 850,66" fill="none" stroke="#56C7D2" stroke-width="4"/>
+          <circle cx="850" cy="66" r="6" fill="#56C7D2"/>
+          <text x="612" y="54" font-size="14" font-weight="700" fill="#56C7D2">What you can see</text>
+          <text x="70" y="16" font-size="12" letter-spacing="1.5" font-weight="700" fill="#AFB6BC">DASHBOARD STATUS ALL YEAR: GREEN</text>
+          <g id="formationLayer" style="display:none">
+            <polyline points="70,182 220,178 380,180 540,175 700,179 850,176" fill="none" stroke="#E8825F" stroke-width="4" stroke-dasharray="10 7"/>
+            <circle cx="850" cy="176" r="6" fill="#E8825F"/>
+            <text x="850" y="202" text-anchor="end" font-size="14" font-weight="700" fill="#E8825F">What independent work might reveal</text>
+            <line x1="850" y1="72" x2="850" y2="170" stroke="#EFEBE2" stroke-width="1.5" stroke-dasharray="5 4"/>
+            <text x="404" y="130" font-size="14" font-style="italic" fill="#EFEBE2">the gap a dashboard cannot see</text>
+          </g>
+        </svg>
+        <figcaption>Conceptual illustration, not measured student data. Grades and completion can remain strong while evidence of learning stays incomplete. An Illinois student described this pattern in the <a href="https://www.isbe.net/Pages/Weekly-Message-Display-Form-V7.aspx?ItemId=76" target="_blank" rel="noopener">September 29 ISBE Weekly</a>.</figcaption>
+      </figure>
+      <button class="reveal-btn" type="button" data-svg-reveal="formationLayer" aria-expanded="false">Now add what independent work might reveal</button>
+    </div>
+  </section>
+
+  <!-- 10 --><section class="scene" data-sec="Tertiary algorithmicity" data-notes="Core slide, about two minutes. Either talk over the static diagram or press Play animation for the 22-second silent version, then make the point. Walter Ong described three stages: primary orality, literacy, and the secondary orality of radio, TV, and the telephone. Through all three, people made the words and people chose which ones reached us. Algorithmic secondary orality is the social media feed: people still create, algorithms curate. Tertiary algorithmicity is the fifth stage: algorithms create and curate. Say plainly that the last two stages are your proposed extension of Ong and of Felix Stalder's algorithmicity, from your doctoral work, not established terms in the field. Land it: this is why minutes and completion cannot tell us what happened. Do not walk every column. Pacing target: reach the friction layers by minute 17.">
+    <div class="inner wide">
+      <p class="eyebrow">Tertiary algorithmicity &middot; who makes the words</p>
+      <h2>Why this moment is different.</h2>
+      <p class="lede" style="max-width:74ch;">For most of history, people made the words and people chose which ones reached us. Social media handed the choosing to algorithms. Generative AI hands over the making. I call that environment <strong>tertiary algorithmicity</strong>: algorithmic systems both curate and generate the symbolic content students learn inside, making human authorship optional at scale.</p>
+      <div class="fig-actions">
+        <button class="opener-launch scene-launch" type="button" aria-haspopup="dialog" aria-controls="opener" data-video="assets/who-makes-the-words.mp4" data-youtube="https://youtu.be/fbVoI4GFEIQ" data-drive="https://drive.google.com/file/d/1HHcTBgegv3yGGiP0HprHPLSEDxiZDdFq/view?usp=sharing" data-video-title="Who makes the words?">Play animation</button>
+      </div>
+      <figure class="fig-anim fig-stages">
+        <svg viewBox="0 0 1000 290" role="img" aria-label="Five media stages across two rows, who creates and who curates. Walter Ong's three stages, primary orality, literacy, and secondary orality, are people in both rows. Miner's first proposed stage, algorithmic secondary orality, the era of social media feeds, has people creating and an algorithm curating. His second proposed stage, tertiary algorithmicity, the era of generative AI, has an algorithm in both rows.">
+            <text x="0" y="146" font-size="13" font-weight="700" letter-spacing="1.5" fill="#4A5158">WHO CREATES</text>
+            <text x="0" y="208" font-size="13" font-weight="700" letter-spacing="1.5" fill="#4A5158">WHO CURATES</text>
+            <text x="216.0" y="26" font-size="16" font-weight="700" text-anchor="middle" fill="#191D21">Primary</text>
+            <text x="216.0" y="46" font-size="16" font-weight="700" text-anchor="middle" fill="#191D21">orality</text>
+            <text x="216.0" y="74" font-size="13" font-style="italic" text-anchor="middle" fill="#4A5158">speech and memory</text>
+            <rect x="132" y="116" width="168" height="48" rx="3" fill="#F2DFD7" stroke="#A63D26" stroke-width="2"/><text x="216.0" y="146" font-size="15" font-weight="700" text-anchor="middle" fill="#7A2C1B">people</text>
+            <rect x="132" y="178" width="168" height="48" rx="3" fill="#F2DFD7" stroke="#A63D26" stroke-width="2"/><text x="216.0" y="208" font-size="15" font-weight="700" text-anchor="middle" fill="#7A2C1B">people</text>
+            <text x="390.0" y="36" font-size="16" font-weight="700" text-anchor="middle" fill="#191D21">Literacy</text>
+            <text x="390.0" y="74" font-size="13" font-style="italic" text-anchor="middle" fill="#4A5158">writing and print</text>
+            <rect x="306" y="116" width="168" height="48" rx="3" fill="#F2DFD7" stroke="#A63D26" stroke-width="2"/><text x="390.0" y="146" font-size="15" font-weight="700" text-anchor="middle" fill="#7A2C1B">people</text>
+            <rect x="306" y="178" width="168" height="48" rx="3" fill="#F2DFD7" stroke="#A63D26" stroke-width="2"/><text x="390.0" y="208" font-size="15" font-weight="700" text-anchor="middle" fill="#7A2C1B">people</text>
+            <text x="564.0" y="26" font-size="16" font-weight="700" text-anchor="middle" fill="#191D21">Secondary</text>
+            <text x="564.0" y="46" font-size="16" font-weight="700" text-anchor="middle" fill="#191D21">orality</text>
+            <text x="564.0" y="74" font-size="13" font-style="italic" text-anchor="middle" fill="#4A5158">radio, TV, telephone</text>
+            <rect x="480" y="116" width="168" height="48" rx="3" fill="#F2DFD7" stroke="#A63D26" stroke-width="2"/><text x="564.0" y="146" font-size="15" font-weight="700" text-anchor="middle" fill="#7A2C1B">people</text>
+            <rect x="480" y="178" width="168" height="48" rx="3" fill="#F2DFD7" stroke="#A63D26" stroke-width="2"/><text x="564.0" y="208" font-size="15" font-weight="700" text-anchor="middle" fill="#7A2C1B">people</text>
+            <text x="738.0" y="26" font-size="16" font-weight="700" text-anchor="middle" fill="#191D21">Algorithmic</text>
+            <text x="738.0" y="46" font-size="16" font-weight="700" text-anchor="middle" fill="#191D21">secondary orality</text>
+            <text x="738.0" y="74" font-size="13" font-style="italic" text-anchor="middle" fill="#4A5158">social media feeds</text>
+            <rect x="654" y="116" width="168" height="48" rx="3" fill="#F2DFD7" stroke="#A63D26" stroke-width="2"/><text x="738.0" y="146" font-size="15" font-weight="700" text-anchor="middle" fill="#7A2C1B">people</text>
+            <rect x="654" y="178" width="168" height="48" rx="3" fill="#0E6E78" stroke="#0B5B63" stroke-width="2"/><text x="738.0" y="208" font-size="15" font-weight="700" text-anchor="middle" fill="#FFFFFF">algorithm</text>
+            <text x="912.0" y="26" font-size="16" font-weight="700" text-anchor="middle" fill="#191D21">Tertiary</text>
+            <text x="912.0" y="46" font-size="16" font-weight="700" text-anchor="middle" fill="#191D21">algorithmicity</text>
+            <text x="912.0" y="74" font-size="13" font-style="italic" text-anchor="middle" fill="#4A5158">generative AI</text>
+            <rect x="828" y="116" width="168" height="48" rx="3" fill="#0E6E78" stroke="#0B5B63" stroke-width="2"/><text x="912.0" y="146" font-size="15" font-weight="700" text-anchor="middle" fill="#FFFFFF">algorithm</text>
+            <rect x="828" y="178" width="168" height="48" rx="3" fill="#0E6E78" stroke="#0B5B63" stroke-width="2"/><text x="912.0" y="208" font-size="15" font-weight="700" text-anchor="middle" fill="#FFFFFF">algorithm</text>
+            <path d="M136 244 L136 254 L644 254 L644 244" fill="none" stroke="#4A5158" stroke-width="2"/><text x="390.0" y="278" font-size="13" font-weight="700" letter-spacing="1.5" text-anchor="middle" fill="#4A5158">WALTER ONG: THREE STAGES</text>
+            <path d="M658 244 L658 254 L992 254 L992 244" fill="none" stroke="#0E6E78" stroke-width="2"/><text x="825.0" y="278" font-size="13" font-weight="700" letter-spacing="1.5" text-anchor="middle" fill="#0E6E78">MINER: TWO PROPOSED STAGES</text>
+        </svg>
+        <figcaption>Ong, <em>Orality and Literacy</em> (1982/2002). The last two stages are Miner's proposed extension of Ong (1982/2002) and Stalder (2016/2018), from doctoral work at National Louis University, not established terms.</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <!-- 11 --><section class="scene" data-sec="Friction" data-notes="Say plainly: I am not arguing for making school harder. Some difficulty is the point, some is just a barrier. The diagram does the structural work, do not over-explain. Name pedagogical friction and the four research names once here, then use Head, Room, World, and the base as shorthand. The base sits beneath the other three as their condition, not beside them as a fourth peer. Read the student quote last. It is the same Illinois student from the unproductive success slide.">
+    <div class="inner wide">
+      <p class="eyebrow">The reframe</p>
+      <h2>Friction is not one thing.</h2>
+      <div class="split split--fig">
+        <figure>
+          <svg viewBox="0 0 520 320" role="img" aria-label="Learning friction has three parts, Head, Room and World, which sit side by side as equal layers. All three rest on a single wide base layer of time, access, technology and policy.">
+            <text x="260" y="18" font-size="13" letter-spacing="2" text-anchor="middle" font-weight="700" fill="#A63D26">JUDGE BY THE LEARNING GOAL</text>
+            <rect x="8" y="32" width="160" height="92" rx="3" fill="#F2DFD7" stroke="#A63D26" stroke-width="2"/>
+            <rect x="180" y="32" width="160" height="92" rx="3" fill="#F2DFD7" stroke="#A63D26" stroke-width="2"/>
+            <rect x="352" y="32" width="160" height="92" rx="3" fill="#F2DFD7" stroke="#A63D26" stroke-width="2"/>
+            <text x="88" y="66" font-size="19" font-weight="700" text-anchor="middle" fill="#7A2C1B">Head</text>
+            <text x="88" y="90" font-size="13.5" text-anchor="middle" fill="#7A2C1B">working it out</text>
+            <text x="88" y="109" font-size="13.5" text-anchor="middle" fill="#7A2C1B">for yourself</text>
+            <text x="260" y="66" font-size="19" font-weight="700" text-anchor="middle" fill="#7A2C1B">Room</text>
+            <text x="260" y="90" font-size="13.5" text-anchor="middle" fill="#7A2C1B">saying it so</text>
+            <text x="260" y="109" font-size="13.5" text-anchor="middle" fill="#7A2C1B">others understand</text>
+            <text x="432" y="66" font-size="19" font-weight="700" text-anchor="middle" fill="#7A2C1B">World</text>
+            <text x="432" y="90" font-size="13.5" text-anchor="middle" fill="#7A2C1B">becoming someone who</text>
+            <text x="432" y="109" font-size="13.5" text-anchor="middle" fill="#7A2C1B">can do difficult things</text>
+
+            <line x1="88" y1="124" x2="88" y2="168" stroke="currentColor" stroke-width="1.5" opacity="0.5"/>
+            <line x1="260" y1="124" x2="260" y2="134" stroke="currentColor" stroke-width="1.5" opacity="0.5"/>
+            <line x1="260" y1="152" x2="260" y2="168" stroke="currentColor" stroke-width="1.5" opacity="0.5"/>
+            <line x1="432" y1="124" x2="432" y2="168" stroke="currentColor" stroke-width="1.5" opacity="0.5"/>
+            <text x="260" y="147" font-size="13" text-anchor="middle" fill="currentColor">all three rest on</text>
+
+            <rect x="8" y="170" width="504" height="82" rx="3" fill="#F1E7CF" stroke="#78540F" stroke-width="2"/>
+            <text x="260" y="200" font-size="18" font-weight="700" text-anchor="middle" fill="#5E410B">The base: the conditions</text>
+            <text x="260" y="223" font-size="14" text-anchor="middle" fill="#5E410B">time &middot; access &middot; technology &middot; policy &middot; the building</text>
+            <text x="260" y="243" font-size="13.5" text-anchor="middle" font-style="italic" fill="#5E410B">what makes the other three possible at all</text>
+
+            <text x="260" y="282" font-size="13" letter-spacing="2" text-anchor="middle" font-weight="700" fill="#78540F">CHECK SUPPORTS AND CONDITIONS</text>
+            <text x="260" y="307" font-size="13.5" text-anchor="middle" fill="currentColor">Any layer can contain a barrier or learning work worth preserving.</text>
+          </svg>
+          <figcaption>Head, Room, and World are separable on paper and tangled in practice. The learning goal determines what to reduce and what to preserve.</figcaption>
+        </figure>
+        <div>
+          <p class="lede">I call the response <strong>pedagogical friction</strong>: the cognitive, rhetorical, and existential resistance durable learning requires. The research names: Head is <em>noetic</em>, Room is <em>rhetorical</em>, World is <em>existential</em>, and the base is <em>infrastructural</em> friction.</p>
+          <p class="lede" style="margin-top:0.7rem;">Remove barriers in any layer. Preserve the thinking, dialogue, and responsibility required by the learning goal.</p>
+          <div class="quiet" style="margin-top:0.9rem;">An Illinois high school junior, writing in the <a href="https://www.isbe.net/Pages/Weekly-Message-Display-Form-V7.aspx?ItemId=76" target="_blank" rel="noopener">September 29 ISBE Weekly</a>: <strong>&ldquo;To learn is to endure a necessary friction.&rdquo;</strong></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 12 --><section class="scene" data-sec="Friction" data-notes="Be generous here. Leaders who apply blanket AI caution end up restricting the safest use while permitting the riskiest. Say that out loud. Ask the room to count the dots that reach Head, Room, and World: three of twelve. Click Remove the barriers. All twelve now reach the same work, and the work itself did not change. That is the point: easing the base changes who reaches the work; it does not do the work for them. OPTIONAL, 15 seconds, no audio: Play scene shows a teacher whose evening goes to IEP scheduling, a drafted schedule she still reviews, and the time she gets back spent on feedback for Maya. Skip it if Maya's essay did not open the session. The illustration is not student data. IF TIME IS SHORT: say this slide's point while still on the friction layers slide and skip it.">
+    <div class="inner wide">
+      <span class="tagline tagline--reduce">Reduce this layer</span>
+      <h2>The base: the conditions</h2>
+      <div class="split split--fig">
+        <div style="display:flex;flex-direction:column;gap:clamp(0.6rem,1.8vmin,1.2rem);">
+          <p class="lede">The conditions that make learning possible at all. Time, access, technology, policy, the building itself.</p>
+          <div class="quiet">
+            A student who cannot reach an archive. A family who cannot read the notice. A teacher who loses an evening to scheduling. These are barriers to learning, not the learning itself. The research name is <em>exclusionary friction</em>. <strong>Removing them expands who gets to do the work.</strong>
+          </div>
+          <div class="fig-actions">
+            <button class="reveal-btn" type="button" data-clear="barrierFig" aria-pressed="false" data-label-off="Remove the barriers" data-label-on="Put the barriers back">Remove the barriers</button>
+            <button class="opener-launch scene-launch" type="button" aria-haspopup="dialog" aria-controls="opener" data-video="assets/teachers-tuesday-night.mp4" data-youtube="https://youtu.be/qE0_TwgJwAo" data-drive="https://drive.google.com/file/d/1GAy6Wj0mEeAvJliAPGQ5-hxxHBIWXJJw/view?usp=sharing" data-video-title="A teacher's Tuesday night">Play scene</button>
+          </div>
+        </div>
+        <figure class="fig-anim barrier-fig" id="barrierFig">
+          <svg viewBox="0 0 520 266" role="img" aria-label="Illustration. Twelve students sit below the base layer. Barriers in the base, an archive out of reach, a notice not in the home language, and an evening lost to scheduling, stop nine of them. Only three reach Head, Room, and World. When the barriers are removed, all twelve reach the same work, which is unchanged.">
+            <rect x="8" y="8" width="160" height="92" rx="3" fill="#F2DFD7" stroke="#A63D26" stroke-width="2"/><text x="88" y="33" font-size="17" font-weight="700" text-anchor="middle" fill="#7A2C1B">Head</text><text x="88" y="52" font-size="12" letter-spacing="1.5" text-anchor="middle" fill="#7A2C1B">THE THINKING</text><rect x="180" y="8" width="160" height="92" rx="3" fill="#F2DFD7" stroke="#A63D26" stroke-width="2"/><text x="260" y="33" font-size="17" font-weight="700" text-anchor="middle" fill="#7A2C1B">Room</text><text x="260" y="52" font-size="12" letter-spacing="1.5" text-anchor="middle" fill="#7A2C1B">THE SAYING</text><rect x="352" y="8" width="160" height="92" rx="3" fill="#F2DFD7" stroke="#A63D26" stroke-width="2"/><text x="432" y="33" font-size="17" font-weight="700" text-anchor="middle" fill="#7A2C1B">World</text><text x="432" y="52" font-size="12" letter-spacing="1.5" text-anchor="middle" fill="#7A2C1B">THE BECOMING</text>
+            <rect x="8" y="118" width="504" height="80" rx="3" fill="#F1E7CF" stroke="#78540F" stroke-width="2"/><text x="18" y="134" font-size="11" letter-spacing="2" font-weight="700" fill="#5E410B">THE BASE</text><line class="gapline" x1="144" y1="196" x2="144" y2="100" stroke="#78540F" stroke-width="1.5" stroke-dasharray="3 4" opacity="0.7"/><g class="barrier"><rect x="16" y="142" width="104" height="46" rx="3" fill="#78540F" stroke="#5E410B" stroke-width="1.5"/><text x="68" y="161" font-size="11.5" text-anchor="middle" fill="#FFFFFF">archive</text><text x="68" y="177" font-size="11.5" text-anchor="middle" fill="#FFFFFF">out of reach</text></g><line class="gapline" x1="316" y1="196" x2="316" y2="100" stroke="#78540F" stroke-width="1.5" stroke-dasharray="3 4" opacity="0.7"/><g class="barrier"><rect x="188" y="142" width="104" height="46" rx="3" fill="#78540F" stroke="#5E410B" stroke-width="1.5"/><text x="240" y="161" font-size="11.5" text-anchor="middle" fill="#FFFFFF">notice not in</text><text x="240" y="177" font-size="11.5" text-anchor="middle" fill="#FFFFFF">home language</text></g><line class="gapline" x1="488" y1="196" x2="488" y2="100" stroke="#78540F" stroke-width="1.5" stroke-dasharray="3 4" opacity="0.7"/><g class="barrier"><rect x="360" y="142" width="104" height="46" rx="3" fill="#78540F" stroke="#5E410B" stroke-width="1.5"/><text x="412" y="161" font-size="11.5" text-anchor="middle" fill="#FFFFFF">evening lost</text><text x="412" y="177" font-size="11.5" text-anchor="middle" fill="#FFFFFF">to scheduling</text></g><text class="eased" x="270" y="168" font-size="13.5" font-style="italic" text-anchor="middle" fill="#5E410B">sources reachable &middot; notice translated &middot; scheduling drafted</text>
+            <circle cx="144" cy="80" r="7" fill="#4A5158"/><circle class="blocked" style="--d:0.05s" cx="36" cy="214" r="7" fill="#4A5158"/><circle class="blocked" style="--d:0.11s" cx="64" cy="214" r="7" fill="#4A5158"/><circle class="blocked" style="--d:0.17s" cx="92" cy="214" r="7" fill="#4A5158"/><circle cx="316" cy="80" r="7" fill="#4A5158"/><circle class="blocked" style="--d:0.23s" cx="208" cy="214" r="7" fill="#4A5158"/><circle class="blocked" style="--d:0.29s" cx="236" cy="214" r="7" fill="#4A5158"/><circle class="blocked" style="--d:0.35s" cx="264" cy="214" r="7" fill="#4A5158"/><circle cx="488" cy="80" r="7" fill="#4A5158"/><circle class="blocked" style="--d:0.41s" cx="380" cy="214" r="7" fill="#4A5158"/><circle class="blocked" style="--d:0.47s" cx="408" cy="214" r="7" fill="#4A5158"/><circle class="blocked" style="--d:0.53s" cx="436" cy="214" r="7" fill="#4A5158"/>
+            <text x="8" y="254" font-size="12.5" fill="#525A61">Each dot: a student</text>
+            <text class="count-blocked" x="512" y="254" font-size="13" font-weight="700" text-anchor="end" fill="#7A2C1B">3 of 12 reach the work</text>
+            <text class="count-cleared" x="512" y="254" font-size="13" font-weight="700" text-anchor="end" fill="#7A2C1B">12 of 12 reach the same work</text>
+          </svg>
+          <figcaption>Illustration. Easing the base changes who reaches the work. It does not do the work for them.</figcaption>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <!-- 13 --><section class="scene" data-sec="Friction" data-notes="INTERACTIVE. Click each one as you talk through it. Head, Room, World. Roughly forty seconds each. These are the cognitive, rhetorical, and existential resistance the session description names. World is existential friction: who students become, not only what they produce. The panel names what it looks like when a tool absorbs that layer.">
+    <div class="inner wide">
+      <p class="eyebrow">The three you protect</p>
+      <h2>Head, Room, and World.</h2>
+      <p class="hint">Click each one</p>
+      <div class="nodes">
+        <button class="node" type="button" data-node="head" aria-pressed="false">
+          <span class="node-name">Head</span>
+          <span class="node-term">noetic &middot; the thinking</span>
+          <span class="node-line">Working it out for yourself.</span>
+        </button>
+        <button class="node" type="button" data-node="room" aria-pressed="false">
+          <span class="node-name">Room</span>
+          <span class="node-term">rhetorical &middot; the saying</span>
+          <span class="node-line">Making others understand it.</span>
+        </button>
+        <button class="node" type="button" data-node="world" aria-pressed="false">
+          <span class="node-name">World</span>
+          <span class="node-term">existential &middot; the becoming</span>
+          <span class="node-line">Turning into someone who can.</span>
+        </button>
+      </div>
+
+      <div class="node-detail" id="nd-head">
+        <span class="dl-label">Head &middot; the thinking work</span>
+        <p>Forming an idea, holding two things that contradict each other, staying in not-knowing long enough to get somewhere.</p>
+        <p class="bypass">When a tool does this: the answer still appears. The thinking moved from the student to the system.</p>
+      </div>
+      <div class="node-detail" id="nd-room">
+        <span class="dl-label">Room &middot; the work of being understood</span>
+        <p>Finding the words, ordering them, imagining a reader who does not already agree with you.</p>
+        <p class="bypass">When a tool does this: writing is not the transcription of a finished thought. Writing is how the thought gets finished. Fluent prose a student did not build skips the part where understanding forms.</p>
+      </div>
+      <div class="node-detail" id="nd-world">
+        <span class="dl-label">World &middot; the work of becoming</span>
+        <p>Who the student turns into by staying with something difficult until it is done.</p>
+        <p class="bypass">When a tool does this: a student who never finishes something difficult may never learn that they can. That is not information. It is formation.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 14 --><section class="scene" data-sec="Friction" data-notes="Tools can be designed to preserve productive struggle. The point is that educators and leaders must still judge the fit between a tool's design, the learning goal, and the learner's needs. Trace the diagram once: the tool brings its design, the district brings the goal and the learner, and the call in the middle leads to keep, change, constrain, or stop, the same four options the room votes on two slides later. Say it warmly. Pacing target: arrive at the four questions by minute 24.">
+    <div class="inner wide">
+      <p class="eyebrow">The part that is nobody's fault</p>
+      <h2>The instructional judgment stays with you.</h2>
+      <div class="split split--fig">
+        <div style="display:flex;flex-direction:column;gap:clamp(0.6rem,1.8vmin,1.2rem);">
+          <p class="lede">Tools embody decisions about what to make easier. Schools and districts still have to judge whether those decisions serve the learning goal and the learner's needs.</p>
+          <div class="quiet"><strong>Which means the judgment call can only live with the adults.</strong> No procurement process, no setting, and no vendor assurance moves that responsibility off your desk.</div>
+        </div>
+        <figure class="fig-anim">
+          <svg viewBox="0 0 520 300" role="img" aria-label="Three inputs, tool design, the learning goal, and the learner's needs, meet at one decision point held by educators and leaders. No product can sit there. That decision leads to keep, change, constrain, or stop.">
+            <g><rect x="8" y="12" width="200" height="64" rx="3" fill="#D8EBED" stroke="#0E6E78" stroke-width="2"/><text x="20" y="39" font-size="15" font-weight="700" fill="#0E6E78">Tool design</text><text x="20" y="59" font-size="11.5" fill="#0E6E78">what the vendor made easy</text></g><path d="M208 44 C 232 44, 226 150, 250 150" fill="none" stroke="#0E6E78" stroke-width="2.5"/><g><rect x="8" y="118" width="200" height="64" rx="3" fill="#F2DFD7" stroke="#A63D26" stroke-width="2"/><text x="20" y="145" font-size="15" font-weight="700" fill="#7A2C1B">Learning goal</text><text x="20" y="165" font-size="11.5" fill="#7A2C1B">what the learner must still do</text></g><path d="M208 150 C 232 150, 226 150, 250 150" fill="none" stroke="#A63D26" stroke-width="2.5"/><g><rect x="8" y="224" width="200" height="64" rx="3" fill="#F1E7CF" stroke="#78540F" stroke-width="2"/><text x="20" y="251" font-size="15" font-weight="700" fill="#5E410B">Learner's needs</text><text x="20" y="271" font-size="11.5" fill="#5E410B">the supports this learner needs</text></g><path d="M208 256 C 232 256, 226 150, 250 150" fill="none" stroke="#78540F" stroke-width="2.5"/><g><rect x="250" y="104" width="130" height="92" rx="4" fill="#191D21"/><text x="315" y="139" font-size="15" font-weight="700" text-anchor="middle" fill="#EFEBE2">Educators</text><text x="315" y="158" font-size="15" font-weight="700" text-anchor="middle" fill="#EFEBE2">&amp; leaders</text><text x="315" y="180" font-size="11.5" text-anchor="middle" fill="#AFB6BC">judge the fit</text></g><text x="315" y="218" font-size="12" font-style="italic" text-anchor="middle" fill="#7A2C1B">no product can sit here</text><text x="468" y="56" font-size="10.5" letter-spacing="1.5" font-weight="700" text-anchor="middle" fill="#525A61">THE CALL</text><path d="M380 150 C 402 150, 402 84, 424 84" fill="none" stroke="#525A61" stroke-width="1.5"/><g><rect x="424" y="66" width="88" height="36" rx="3" fill="#F3F0E9" stroke="#525A61" stroke-width="1.5"/><text x="468" y="89" font-size="13" font-weight="700" text-anchor="middle" fill="#191D21">Keep</text></g><path d="M380 150 C 402 150, 402 130, 424 130" fill="none" stroke="#525A61" stroke-width="1.5"/><g><rect x="424" y="112" width="88" height="36" rx="3" fill="#F3F0E9" stroke="#525A61" stroke-width="1.5"/><text x="468" y="135" font-size="13" font-weight="700" text-anchor="middle" fill="#191D21">Change</text></g><path d="M380 150 C 402 150, 402 176, 424 176" fill="none" stroke="#525A61" stroke-width="1.5"/><g><rect x="424" y="158" width="88" height="36" rx="3" fill="#F3F0E9" stroke="#525A61" stroke-width="1.5"/><text x="468" y="181" font-size="13" font-weight="700" text-anchor="middle" fill="#191D21">Constrain</text></g><path d="M380 150 C 402 150, 402 222, 424 222" fill="none" stroke="#525A61" stroke-width="1.5"/><g><rect x="424" y="204" width="88" height="36" rx="3" fill="#F3F0E9" stroke="#525A61" stroke-width="1.5"/><text x="468" y="227" font-size="13" font-weight="700" text-anchor="middle" fill="#191D21">Stop</text></g>
+          </svg>
+          <figcaption>The tool brings its design. The district brings the goal and the learner. The call happens in the middle.</figcaption>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <!-- 15 --><section class="scene" data-sec="The lens" data-notes="INTERACTIVE. Click each question to open the why. Four is the one that changes procurement conversations. Leave four open when you move on. This lens diagnoses displaced learning; it does not clear a use for privacy, accuracy, bias, access, or academic integrity. Those are separate safeguards, including when a tool eases only the base. IF SOMEONE RAISES THE RED/YELLOW/GREEN TRAFFIC LIGHT SYSTEM (the ISBE Weekly student describes it): the light sets permission for each assignment; these four questions decide which color, by naming the work that has to stay with the student.">
+    <div class="inner">
+      <p class="eyebrow">The lens</p>
+      <h2>Four questions. Any tool, any vendor.</h2>
+      <p class="hint">Click a question to open it</p>
+      <div class="qlist">
+        <button class="qrow" type="button" aria-expanded="false">
+          <span class="qn">01</span>
+          <span class="qbody"><span class="qq">What does this make easier?</span>
+          <span class="qwhy">Be specific. "Saves teachers time" is not an answer. Saves them what, at which step? Example: it drafts the parent newsletter, so the teacher spends that hour reading student arguments.</span></span>
+        </button>
+        <button class="qrow" type="button" aria-expanded="false">
+          <span class="qn">02</span>
+          <span class="qbody"><span class="qq">Which layer is it easing?</span>
+          <span class="qwhy">The base, or Head, Room, or World? If you cannot say, you cannot govern it. Example: translating a notice eases the base. Drafting a student's essay reaches into Room.</span></span>
+        </button>
+        <button class="qrow" type="button" aria-expanded="false">
+          <span class="qn">03</span>
+          <span class="qbody"><span class="qq">What is the student no longer doing, and was that the standard?</span>
+          <span class="qwhy">If the removed step was the objective, the tool did not help with the objective. It replaced it. Example: if the standard is summarizing a text and the tool writes the summary, the standard left the room.</span></span>
+        </button>
+        <button class="qrow" type="button" aria-expanded="false">
+          <span class="qn">04</span>
+          <span class="qbody"><span class="qq">What signal would tell us it went wrong, and who is watching it?</span>
+          <span class="qwhy">If no one has named the evidence that would reveal a learning gap, ordinary completion data may not expose it. Decide what to inspect and who will inspect it. Example: the instructional coach reads a monthly sample of student-authored exit tickets, with needed accessibility supports.</span></span>
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- 16 --><section class="scene" data-sec="The lens" data-notes="VOTE BEFORE THE REVEAL. Use two examples, plus text to speech last. For each, give ten seconds to decide alone, twenty seconds to explain to a neighbor, then ask for a show of hands: keep, change, constrain, or stop. Ask what information is missing before clicking. For text to speech, compare evaluating historical evidence with practicing decoding: Same feature. Different learning goal. What changes about your decision? Retain needed accessibility supports in both situations. Allow about three minutes for this discussion. Base-layer relief still needs privacy, accuracy, access, bias, and integrity checks. Pacing target: begin the table audit by minute 29.">
+    <div class="inner wide">
+      <p class="eyebrow">Try the lens &middot; pick one</p>
+      <h2>Which layer does it ease?</h2>
+      <p class="hint">Decide alone. Compare with a neighbor. Vote before the reveal.</p>
+      <div class="sorter">
+        <div class="chips">
+          <button class="chip" type="button" aria-pressed="false" data-layers="base" data-verdict="good" data-text="Reduces an access barrier. For consequential notices, verify translation quality and use an approved workflow.">Translate a family notice</button>
+          <button class="chip" type="button" aria-pressed="false" data-layers="base" data-verdict="good" data-text="Reduces adult logistics. Sensitive meeting information and required notices still need approved handling and human verification.">Auto-schedule IEP meetings</button>
+          <button class="chip" type="button" aria-pressed="false" data-layers="room" data-verdict="bypass" data-text="If articulation was the assignment, this use does that work for the student. Ask how often the student is still doing it.">Chatbot writes the first draft</button>
+          <button class="chip" type="button" aria-pressed="false" data-layers="head" data-verdict="bypass" data-text="If comprehension was the objective, the objective just left the building. If the reading was background for something else, this may be fine.">AI summarizes the reading</button>
+          <button class="chip" type="button" aria-pressed="false" data-layers="head" data-verdict="depends" data-text="Load management, not load removal. Good, as long as somebody owns the exit ramp. Scaffolds that never come down become ceilings.">Adaptive practice set</button>
+          <button class="chip" type="button" aria-pressed="false" data-layers="base" data-verdict="depends" data-text="Speeds feedback, which is real value. It also takes the teacher's read of the class. Decide on purpose who keeps that.">Auto-grade short answers</button>
+          <button class="chip" type="button" aria-pressed="false" data-layers="maybe" data-verdict="depends" data-text="Same feature, different learning goal. For historical reasoning, text to speech can remove a decoding barrier. For decoding practice, students need opportunities to do the decoding. Retain needed accessibility supports in both situations; judge whether the learner is doing the target thinking.">Text to speech for a struggling reader</button>
+        </div>
+        <div class="sorter-stage">
+          <div class="mini" id="miniStrata" role="img" aria-label="A small version of the friction layers. Head, Room and World sit above a wide base layer. The layer affected by the selected tool is highlighted.">
+            <div class="mini-row">
+              <div class="mini-cell" data-cell="head">Head</div>
+              <div class="mini-cell" data-cell="room">Room</div>
+              <div class="mini-cell" data-cell="world">World</div>
+            </div>
+            <div class="mini-base" data-cell="base">The base</div>
+          </div>
+          <div class="sorter-verdict">
+            <span class="sv-tag depends" id="svTag">Pick one</span>
+            <p class="sv-text" id="svText">First ask which layer the use touches. Then decide whether to keep, change, constrain, or stop it.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 17 --><section class="scene" data-sec="The lens" data-notes="NINE MINUTES TOTAL. One minute: choose one specific use and a recorder. One minute: open the reading example and model the finished sentence. Five minutes: table discussion and writing both sentences in participants' own notes or on the lens card. Two minutes: two thirty-second reports and your response. Start the four-minute work period only after the task is clear. Walk the room and ask: What would you actually look at to know whether this protection was working? Listen for a learning goal, an observable signal, an owner, and the condition that has to hold. Keep needed accessibility supports. Pacing target: finish the debrief by minute 38. If tables mix roles, hand the second sentence to the leaders: what a teacher could not change alone. That is the bridge to the next slide.">
+    <div class="inner wide">
+      <p class="eyebrow">Table audit &middot; nine minutes together</p>
+      <h2>One real use from your setting</h2>
+      <p class="lede">Choose one specific way a tool is already used in your classroom, school, or district. Name one recorder.</p>
+      <div class="activity-steps" aria-label="Four steps for the table activity">
+        <div class="activity-step"><span class="step-number">01</span><h3>Choose the use</h3><p>Name the exact task and who uses the tool.</p></div>
+        <div class="activity-step"><span class="step-number">02</span><h3>Anchor the goal</h3><p>What must the learner or educator still practice or decide?</p></div>
+        <div class="activity-step"><span class="step-number">03</span><h3>Run the lens</h3><p>What gets easier? Which layer? What work disappears?</p></div>
+        <div class="activity-step"><span class="step-number">04</span><h3>Make the call</h3><p>Keep, change, constrain, or stop. What evidence will an owner inspect?</p></div>
+      </div>
+      <div class="quiet activity-output"><strong>Your table leaves with two sentences:</strong> In this use, ______ must still ______. ______ will watch ______ for signs the support is replacing the work that matters.<br><strong>For it to last,</strong> ______ (grades, pacing, device settings, professional learning, or policy) has to support it, and ______ owns that.</div>
+      <div class="examples">
+        <span class="ex-head">Finished examples &middot; open one</span>
+        <div class="vrows">
+          <button class="vrow vrow--ex" type="button" aria-expanded="false"><span class="vlabel">Example &middot; middle school reading</span><span class="vvalue">In AI-summarized readings, 7th graders must still state the author's central claim in their own words. The ELA coach will review monthly student-authored exit tickets, with needed accessibility supports, for signs the tool is doing the target thinking. For it to last, the ELA pacing guide has to leave time for the exit tickets, and the curriculum director owns that.</span></button>
+          <button class="vrow vrow--ex" type="button" aria-expanded="false"><span class="vlabel">Example &middot; math intervention</span><span class="vvalue">In adaptive math practice, students below grade level must still attempt grade-level tasks every unit. The math interventionist will watch movement toward grade level, not path completion, for signs the support has become a ceiling. For it to last, progress reports have to show movement toward grade level rather than path completion, and the assessment coordinator owns that.</span></button>
+          <button class="vrow vrow--ex" type="button" aria-expanded="false"><span class="vlabel">Example &middot; high school writing feedback</span><span class="vvalue">In AI-suggested feedback on essays, teachers must still read each essay before feedback goes out. The department chair will watch a sample of feedback each grading period for signs the teacher's own read of the class is fading. For it to last, the tool's settings have to hold feedback until the teacher releases it, and the technology director owns that.</span></button>
+          <button class="vrow vrow--ex" type="button" aria-expanded="false"><span class="vlabel">Example &middot; central office</span><span class="vvalue">In AI-translated family notices, staff must still verify any notice about discipline, special education, or safety before it is sent. The communications lead will watch family questions and corrections for signs the translation is failing families. For it to last, board policy has to name which notices need human verification, and the superintendent's cabinet owns that.</span></button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 18 --><section class="scene" data-sec="The system" data-notes="About four minutes. Start from the table audit's second sentence. Ask one or two tables what has to hold for their protection to last, and who owns it. That is infrastructural friction. One teacher can redesign a task; grades, pacing guides, device settings, professional learning, and policy decide whether the redesign survives the next grading period. Then the study, honestly. The session description mentions case study findings. Say plainly: I wrote that description before the design was finalized for my proposal defense in August. The study is now collecting data through February 2027, so there are no findings to report today. Then say what the study is built to learn. Do not describe any participant or preliminary pattern. This slide is not a recruitment notice; keep it that way. Pacing target: reach the close by minute 42.">
+    <div class="inner wide">
+      <p class="eyebrow">The base decides what survives</p>
+      <h2>Infrastructure is where friction lives or dies.</h2>
+      <div class="split split--fig">
+        <div style="display:flex;flex-direction:column;gap:clamp(0.6rem,1.8vmin,1.2rem);">
+          <p class="lede">One teacher can redesign a task. Grades, pacing, device settings, professional learning, and policy decide whether the redesign survives the next grading period.</p>
+          <div class="quiet"><strong>Research in progress, not findings.</strong> My doctoral study at National Louis University (IRB exempt, protocol ER01884) is collecting data through February 2027. One of its research questions:</div>
+          <p class="study-rq">&ldquo;How do educators and school-system leaders make sense of and respond to the policy, professional-learning, assessment, access, and governance conditions surrounding generative AI?&rdquo;</p>
+        </div>
+        <div>
+          <ul class="plain">
+            <li><span class="bullet">&rarr;</span><span>Classroom-facing educators<span>How AI changes the work students do and how teachers judge it.</span></span></li>
+            <li><span class="bullet">&rarr;</span><span>Building-level administrators<span>School guidance, professional learning, and assessment expectations.</span></span></li>
+            <li><span class="bullet">&rarr;</span><span>District or system-level leaders<span>Policy, governance, and the decisions that enable or constrain classroom practice.</span></span></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 19 --><section class="scene dark" data-sec="Close" data-notes="Return to what the room said at the opening: what got easier, what got better, and the evidence that distinguishes them. Land the line and pause. Then advance silently to resources for questions. End on time; the next presenter needs the room by 12:55.">
+    <div class="inner">
+      <p class="eyebrow">Where we started</p>
+      <p class="huge">The schools that will be ready are not the ones that adopted fastest.</p>
+      <h2>They are the ones that decided, on purpose, what to keep difficult.</h2>
+    </div>
+  </section>
+
+  <!-- 20 --><section class="scene" data-sec="Close" data-notes="Leave this up during questions. Repeat each question into the mic before answering. If the room is quiet, seed it: which friction in your own setting is worth protecting, and which is worth removing?">
+    <div class="inner">
+      <p class="eyebrow">Take one thing with you</p>
+      <h2>Resources</h2>
+      <div class="resource-grid">
+      <ul class="plain">
+        <li><span class="bullet">&rarr;</span><span><a href="lens-card.html">Lens card</a><span>The four questions and both table sentences on one printable page.</span></span></li>
+        <li><span class="bullet">&rarr;</span><span><a href="https://minerclass.github.io/technoskepticism-primer/">Technoskepticism Primer</a><span>Five plain questions to ask of any technology before you adopt it.</span></span></li>
+        <li><span class="bullet">&rarr;</span><span><a href="https://digitalcommons.nl.edu/ie/vol18/iss1/4/">When the Output Looks Like Learning</a><span>The <em>i.e.: inquiry in education</em> article behind tertiary algorithmicity, unproductive success, and pedagogical friction.</span></span></li>
+        <li><span class="bullet">&rarr;</span><span><a href="https://minerclass.github.io/friction-game/">Friction Lab</a><span>Try the framework on one of your own assignments. The lab labels the layers cognitive (Head), social (Room), and existential (World).</span></span></li>
+        <li><span class="bullet">&rarr;</span><span><a href="https://www.isbe.net/Pages/Weekly-Message-Display-Form-V7.aspx?ItemId=76" target="_blank" rel="noopener">September 29 ISBE Weekly</a><span>An Illinois student on grades that can come apart from the skill those grades represent.</span></span></li>
+        <li><span class="bullet">&rarr;</span><span><a href="https://minerclass.github.io/">All projects and research</a><span>minerclass.github.io</span></span></li>
+        <li><span class="bullet">&rarr;</span><span><a href="https://minerclass.github.io/ietc-2026-great-bypass/">These slides, with every link above</a><span>minerclass.github.io/ietc-2026-great-bypass</span></span></li>
+      </ul>
+        <div class="resource-scan">
+          <a href="https://minerclass.github.io/ietc-2026-great-bypass/#20"><img src="assets/deck-qr.svg" width="328" height="328" alt="QR code linking to the resources slide of this public deck"></a>
+          <p>Scan for these slides and every link.</p>
+        </div>
+      </div>
+      <hr class="rule">
+      <p class="credit">Micah Miner &middot; micahminer.com &middot; Beach Park CCSD 3</p>
+    </div>
+  </section>
+
+  <!-- 21 --><section class="scene" data-sec="Close" data-notes="Optional. Show it at the end or leave it up after questions. The text is the approved survey notice (B), word for word, with the survey link and its QR code. Mention it in your own words if you like, but do not ask anyone to pass it on.">
+    <div class="inner wide">
+      <p class="eyebrow">Survey invitation</p>
+      <h2 class="survey-title">Invitation: dissertation study on generative AI and K&ndash;12 teaching and learning</h2>
+      <div class="resource-grid survey-grid">
+        <p class="survey-notice">K&ndash;12 educators and school system leaders: I am a doctoral candidate at National Louis University studying how generative AI is affecting the effortful parts of learning, and what school and district conditions help educators respond. The survey is anonymous, takes 10 to 12 minutes, and asks about your own practice and your own institution. The survey will not ask for names or email addresses and will not require participants to sign in. The researcher will verify the final Microsoft Forms settings relevant to response anonymity and metadata before activation. You must be 18 or older and currently work in a K&ndash;12 school or district. Employees of Beach Park CCSD 3 are not eligible. <a href="https://forms.cloud.microsoft/r/UbTcf4EHKn" target="_blank" rel="noopener">https://forms.cloud.microsoft/r/UbTcf4EHKn</a> Questions: mminer1@my.nl.edu.</p>
+        <div class="resource-scan">
+          <a href="https://forms.cloud.microsoft/r/UbTcf4EHKn" target="_blank" rel="noopener"><img src="assets/er01884-survey-qr.svg" width="328" height="328" alt="QR code for the survey link, https://forms.cloud.microsoft/r/UbTcf4EHKn"></a>
+          <p>forms.cloud.microsoft/r/UbTcf4EHKn</p>
+        </div>
+      </div>
+      <p class="credit">NLU IRB protocol ER01884 &middot; Approved notice text</p>
+    </div>
+  </section>
+
+  <!-- 22 --><section class="scene" data-sec="References" data-notes="Not presented. Here for anyone following along on their own device.">
+    <div class="inner wide">
+      <h2>References</h2>
+      <div class="refs-list">
+        <p>Bjork, E. L., &amp; Bjork, R. A. (2011). Making things hard on yourself, but in a good way: Creating desirable difficulties to enhance learning. In M. A. Gernsbacher, R. W. Pew, L. M. Hough, &amp; J. R. Pomerantz (Eds.), <em>Psychology and the real world: Essays illustrating fundamental contributions to society</em> (pp. 56&ndash;64). Worth Publishers.</p>
+        <p>Kapur, M. (2008). Productive failure. <em>Cognition and Instruction, 26</em>(3), 379&ndash;424. https://doi.org/10.1080/07370000802212669</p>
+        <p>Kapur, M. (2016). Examining productive failure, productive success, unproductive failure, and unproductive success in learning. <em>Educational Psychologist, 51</em>(2), 289&ndash;299. https://doi.org/10.1080/00461520.2016.1155457</p>
+        <p>Miner, M. J. (2026). When the output looks like learning: Tertiary algorithmicity, unproductive success, and the case for pedagogical friction in K&ndash;12 schools. <em>i.e.: inquiry in education, 18</em>(1), Article 4.</p>
+        <p>Moreno-Balderas, M. (2026, September 29). Guest column: As a student, here&rsquo;s what I want adults to know about AI. <em>ISBE Weekly</em>. Illinois State Board of Education. https://www.isbe.net/Pages/Weekly-Message-Display-Form-V7.aspx?ItemId=76</p>
+        <p>Ong, W. J. (2002). <em>Orality and literacy: The technologizing of the word</em> (2nd ed.). Routledge. (Original work published 1982)</p>
+        <p>Stalder, F. (2018). <em>The digital condition</em> (V. A. Pakis, Trans.). Polity Press. (Original work published 2016)</p>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<div class="rail" id="rail"></div>
+
+<div class="chrome">
+  <span class="chrome-left" id="sceneTitle"></span>
+  <div class="controls">
+    <button class="ctl" id="btnTimer" type="button" aria-label="Start or pause the presentation timer">00:00</button>
+    <button class="ctl" id="btnFull" type="button" aria-label="Toggle fullscreen">Full</button>
+    <button class="ctl" id="btnOverview" type="button" aria-label="Toggle slide overview">Overview</button>
+    <button class="ctl" id="btnNotes" type="button" aria-label="Toggle speaker notes">Notes</button>
+    <button class="ctl" id="btnPrev" type="button" aria-label="Previous slide">Prev</button>
+    <span class="chrome-left counter" id="counter">1 / 21</span>
+    <button class="ctl" id="btnNext" type="button" aria-label="Next slide">Next</button>
+  </div>
+</div>
+
+<div class="notes" id="notes" role="region" aria-label="Speaker notes">
+  <span class="label">Speaker notes</span>
+  <p id="notesBody"></p>
+</div>
+
+<div class="overview" id="overview" role="dialog" aria-modal="true" aria-label="Slide overview">
+  <h2>Overview</h2>
+  <div class="thumbs" id="thumbs"></div>
+</div>
+
+<dialog class="opener" id="opener" aria-labelledby="openerTitle">
+  <div class="opener-head">
+    <h2 id="openerTitle">Maya's essay</h2>
+    <button class="ctl" id="btnCloseOpener" type="button" autofocus>Back to presentation</button>
+  </div>
+  <video id="openerVideo" controls playsinline preload="metadata" aria-label="Maya's essay video">
+    <source src="assets/mayas-essay-opener.mp4" type="video/mp4">
+    Your browser cannot play this video. <a id="openerFallback" href="assets/mayas-essay-opener.mp4">Open the video directly</a>.
+  </video>
+  <p class="opener-error" id="openerError" role="alert" hidden>The video could not load. Try YouTube, Google Drive, or download the clip below.</p>
+  <p class="credit"><a id="openerDownload" href="assets/mayas-essay-opener.mp4" download>Download video</a> <a id="openerYouTube" href="https://youtu.be/ZL2OTAgw05I" target="_blank" rel="noopener">Watch on YouTube</a> <a id="openerDrive" href="https://drive.google.com/file/d/11eBjpBlkZd04eP-zko-qvKscFqIaqYiq/view?usp=sharing" target="_blank" rel="noopener">Watch in Google Drive</a></p>
+</dialog>
+
+<p class="sr-only" id="liveRegion" aria-live="polite"></p>
+
+<script>
+(function () {
+  'use strict';
+  var scenes = Array.prototype.slice.call(document.querySelectorAll('.scene'));
+  var total = scenes.length;
+  var i = 0;
+
+  var $ = function (id) { return document.getElementById(id); };
+  var progress = $('progress'), counter = $('counter'), sceneTitle = $('sceneTitle');
+  var notes = $('notes'), notesBody = $('notesBody');
+  var overview = $('overview'), thumbs = $('thumbs'), rail = $('rail');
+  var live = $('liveRegion'), btnPrev = $('btnPrev'), btnNext = $('btnNext');
+  var opener = $('opener'), openerVideo = $('openerVideo');
+
+  /* ---------- opening video ---------- */
+  function closeOpener() {
+    openerVideo.pause();
+    if (opener.open) opener.close();
+  }
+  Array.prototype.forEach.call(document.querySelectorAll('.opener-launch'), function (btn) {
+    btn.addEventListener('click', function () {
+      var path = btn.getAttribute('data-video');
+      var title = btn.getAttribute('data-video-title');
+      var source = openerVideo.querySelector('source');
+      $('openerTitle').textContent = title;
+      openerVideo.setAttribute('aria-label', title);
+      $('openerFallback').href = path;
+      $('openerDownload').href = path;
+      // A clip without hosted copies hides the YouTube and Drive links.
+      var yt = btn.getAttribute('data-youtube'), drive = btn.getAttribute('data-drive');
+      $('openerYouTube').hidden = !yt;
+      $('openerDrive').hidden = !drive;
+      if (yt) $('openerYouTube').href = yt;
+      if (drive) $('openerDrive').href = drive;
+      $('openerError').textContent = (yt || drive)
+        ? 'The video could not load. Try YouTube, Google Drive, or download the clip below.'
+        : 'The video could not load. Download the clip below and open it directly.';
+      $('openerError').hidden = true;
+      if (source.getAttribute('src') !== path) {
+        source.setAttribute('src', path);
+        openerVideo.load();
+      }
+      opener.showModal();
+      openerVideo.currentTime = 0;
+      var playback = openerVideo.play();
+      if (playback) playback.catch(function () { /* Native controls remain available. */ });
+    });
+  });
+  $('btnCloseOpener').addEventListener('click', closeOpener);
+  $('openerYouTube').addEventListener('click', function () { openerVideo.pause(); });
+  $('openerDrive').addEventListener('click', function () { openerVideo.pause(); });
+  opener.addEventListener('close', function () { openerVideo.pause(); });
+  function videoError() { $('openerError').hidden = false; }
+  openerVideo.addEventListener('error', videoError);
+  openerVideo.querySelector('source').addEventListener('error', videoError);
+
+  function labelFor(s) {
+    var h = s.querySelector('h1, h2, .huge');
+    return h ? h.textContent.trim().replace(/\s+/g, ' ').slice(0, 60) : 'Slide';
+  }
+
+  /* ---------- section rail ---------- */
+  var sections = [];
+  scenes.forEach(function (s, n) {
+    var name = s.getAttribute('data-sec') || 'Slides';
+    if (!sections.length || sections[sections.length - 1].name !== name) {
+      sections.push({ name: name, start: n });
+    }
+  });
+  sections.forEach(function (sec) {
+    var b = document.createElement('button');
+    b.className = 'rail-seg';
+    b.type = 'button';
+    b.textContent = sec.name;
+    b.addEventListener('click', function () { go(sec.start); });
+    rail.appendChild(b);
+  });
+
+  /* ---------- overview thumbs ---------- */
+  scenes.forEach(function (s, n) {
+    var b = document.createElement('button');
+    b.className = 'thumb';
+    b.type = 'button';
+    var num = document.createElement('span');
+    num.className = 'n';
+    num.textContent = n + 1;
+    b.appendChild(num);
+    b.appendChild(document.createTextNode(labelFor(s)));
+    b.addEventListener('click', function () { go(n); overview.classList.remove('is-open'); });
+    thumbs.appendChild(b);
+  });
+
+  function render() {
+    scenes.forEach(function (s, n) { s.classList.toggle('is-active', n === i); });
+    document.body.classList.toggle('scene-dark-active', scenes[i].classList.contains('dark'));
+    progress.style.width = (total < 2 ? 100 : (i / (total - 1)) * 100) + '%';
+    counter.textContent = (i + 1) + ' / ' + total;
+    sceneTitle.textContent = labelFor(scenes[i]);
+    notesBody.textContent = scenes[i].getAttribute('data-notes') || 'No notes for this slide.';
+    btnPrev.disabled = (i === 0);
+    btnNext.disabled = (i === total - 1);
+
+    Array.prototype.forEach.call(thumbs.children, function (t, n) {
+      t.classList.toggle('is-current', n === i);
+    });
+    var cur = 0;
+    sections.forEach(function (sec, k) { if (i >= sec.start) cur = k; });
+    Array.prototype.forEach.call(rail.children, function (r, k) {
+      r.classList.toggle('is-current', k === cur);
+    });
+
+    live.textContent = 'Slide ' + (i + 1) + ' of ' + total + '. ' + labelFor(scenes[i]);
+    if (history.replaceState) history.replaceState(null, '', '#' + (i + 1));
+  }
+
+  function go(n) { closeOpener(); i = Math.max(0, Math.min(total - 1, n)); render(); }
+
+  /* ---------- interactive: Head / Room / World nodes ---------- */
+  Array.prototype.forEach.call(document.querySelectorAll('.node'), function (btn) {
+    btn.addEventListener('click', function () {
+      var key = btn.getAttribute('data-node');
+      var open = btn.getAttribute('aria-pressed') === 'true';
+      Array.prototype.forEach.call(document.querySelectorAll('.node'), function (b) {
+        b.setAttribute('aria-pressed', 'false');
+      });
+      Array.prototype.forEach.call(document.querySelectorAll('.node-detail'), function (d) {
+        d.classList.remove('is-shown');
+      });
+      if (!open) {
+        btn.setAttribute('aria-pressed', 'true');
+        var panel = $('nd-' + key);
+        if (panel) panel.classList.add('is-shown');
+      }
+    });
+  });
+
+  /* ---------- interactive: generic reveals ---------- */
+  Array.prototype.forEach.call(document.querySelectorAll('[data-reveal]'), function (btn) {
+    btn.addEventListener('click', function () {
+      var target = $(btn.getAttribute('data-reveal'));
+      if (!target) return;
+      var open = target.classList.toggle('is-shown');
+      btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+    });
+  });
+
+  Array.prototype.forEach.call(document.querySelectorAll('[data-svg-reveal]'), function (btn) {
+    btn.addEventListener('click', function () {
+      var g = $(btn.getAttribute('data-svg-reveal'));
+      if (!g) return;
+      var open = g.style.display !== 'none';
+      g.style.display = open ? 'none' : '';
+      btn.setAttribute('aria-expanded', open ? 'false' : 'true');
+    });
+  });
+
+  /* ---------- interactive: remove the barriers (the base) ---------- */
+  Array.prototype.forEach.call(document.querySelectorAll('[data-clear]'), function (btn) {
+    btn.addEventListener('click', function () {
+      var fig = $(btn.getAttribute('data-clear'));
+      if (!fig) return;
+      var on = fig.classList.toggle('is-cleared');
+      btn.setAttribute('aria-pressed', on ? 'true' : 'false');
+      btn.textContent = btn.getAttribute(on ? 'data-label-on' : 'data-label-off');
+    });
+  });
+
+  /* ---------- interactive: expandable rows ---------- */
+  Array.prototype.forEach.call(document.querySelectorAll('.qrow, .vrow'), function (row) {
+    row.addEventListener('click', function () {
+      var open = row.getAttribute('aria-expanded') === 'true';
+      // Example rows show one at a time so the slide never outgrows the screen.
+      if (!open && row.classList.contains('vrow--ex')) {
+        Array.prototype.forEach.call(row.parentNode.querySelectorAll('.vrow--ex'), function (r) {
+          r.setAttribute('aria-expanded', 'false');
+        });
+      }
+      row.setAttribute('aria-expanded', open ? 'false' : 'true');
+    });
+  });
+
+  /* ---------- interactive: tool sorter ---------- */
+  var miniCells = document.querySelectorAll('[data-cell]');
+  var svTag = $('svTag'), svText = $('svText');
+
+  function clearMini() {
+    Array.prototype.forEach.call(miniCells, function (c) {
+      c.classList.remove('on', 'maybe');
+    });
+  }
+
+  Array.prototype.forEach.call(document.querySelectorAll('.chip'), function (chip) {
+    chip.addEventListener('click', function () {
+      var was = chip.getAttribute('aria-pressed') === 'true';
+      Array.prototype.forEach.call(document.querySelectorAll('.chip'), function (c) {
+        c.setAttribute('aria-pressed', 'false');
+      });
+      clearMini();
+      if (was) {
+        svTag.className = 'sv-tag depends';
+        svTag.textContent = 'Pick one';
+        svText.textContent = 'First ask which layer the use touches. Then decide whether to keep, change, constrain, or stop it.';
+        return;
+      }
+      chip.setAttribute('aria-pressed', 'true');
+
+      var layers = (chip.getAttribute('data-layers') || '').split(/\s+/);
+      if (layers.indexOf('maybe') > -1) {
+        Array.prototype.forEach.call(miniCells, function (c) { c.classList.add('maybe'); });
+      } else {
+        layers.forEach(function (L) {
+          var cell = document.querySelector('[data-cell="' + L + '"]');
+          if (cell) cell.classList.add('on');
+        });
+      }
+
+      var v = chip.getAttribute('data-verdict');
+      svTag.className = 'sv-tag ' + v;
+      svTag.textContent = v === 'good' ? 'Base-layer gain' : (v === 'bypass' ? 'That was the learning' : 'It depends');
+      svText.textContent = chip.getAttribute('data-text') || '';
+    });
+  });
+
+  /* ---------- presenter timer ---------- */
+  var btnTimer = $('btnTimer'), tStart = null, tAccum = 0, tTick = null;
+  function fmt(ms) {
+    var s = Math.floor(ms / 1000);
+    return ('0' + Math.floor(s / 60)).slice(-2) + ':' + ('0' + (s % 60)).slice(-2);
+  }
+  function paint() { btnTimer.textContent = fmt(tAccum + (tStart ? Date.now() - tStart : 0)); }
+  btnTimer.addEventListener('click', function () {
+    if (tStart) {
+      tAccum += Date.now() - tStart; tStart = null;
+      clearInterval(tTick); tTick = null;
+      btnTimer.classList.remove('running');
+    } else {
+      tStart = Date.now();
+      tTick = setInterval(paint, 1000);
+      btnTimer.classList.add('running');
+    }
+    paint();
+  });
+
+  /* ---------- fullscreen ---------- */
+  $('btnFull').addEventListener('click', function () {
+    if (document.fullscreenElement) {
+      if (document.exitFullscreen) document.exitFullscreen();
+    } else if (document.documentElement.requestFullscreen) {
+      document.documentElement.requestFullscreen();
+    }
+  });
+
+  /* ---------- chrome buttons ---------- */
+  btnPrev.addEventListener('click', function () { go(i - 1); });
+  btnNext.addEventListener('click', function () { go(i + 1); });
+  $('btnNotes').addEventListener('click', function () { notes.classList.toggle('is-open'); });
+  $('btnOverview').addEventListener('click', function () { overview.classList.toggle('is-open'); });
+
+  /* ---------- keyboard ----------
+     Space and Enter belong to a focused in-slide control, so they are not
+     hijacked for navigation while the presenter is opening a panel. Arrows
+     always navigate. */
+  document.addEventListener('keydown', function (e) {
+    if (opener.open || e.metaKey || e.ctrlKey || e.altKey) return;
+    var t = e.target || {};
+    var tag = (t.tagName || '').toLowerCase();
+    if (tag === 'input' || tag === 'textarea' || t.isContentEditable) return;
+
+    var onControl = tag === 'button' || tag === 'a';
+
+    switch (e.key) {
+      case 'ArrowRight': case 'PageDown': e.preventDefault(); go(i + 1); break;
+      case 'ArrowLeft': case 'PageUp': e.preventDefault(); go(i - 1); break;
+      case ' ':
+        if (onControl) return;          // let the control activate
+        e.preventDefault(); go(i + 1); break;
+      case 'Enter':
+        if (onControl) return;
+        break;
+      case 'Home': e.preventDefault(); go(0); break;
+      case 'End': e.preventDefault(); go(total - 1); break;
+      case 'n': case 'N': if (!onControl) notes.classList.toggle('is-open'); break;
+      case 'o': case 'O': if (!onControl) overview.classList.toggle('is-open'); break;
+      case 'f': case 'F': if (!onControl) $('btnFull').click(); break;
+      case 'Escape':
+        overview.classList.remove('is-open');
+        notes.classList.remove('is-open');
+        break;
+    }
+  });
+
+  var start = parseInt((location.hash || '').replace('#', ''), 10);
+  go(isNaN(start) ? 0 : start - 1);
+})();
+</script>
+
+</body>
+</html>
