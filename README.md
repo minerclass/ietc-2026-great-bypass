@@ -13,6 +13,8 @@ Built from `future-ready-not-just-ai-ready` (the October 6 keynote): same engine
 | `assets/mayas-essay-opener.mp4` | Title-slide clip, 15 seconds, no audio |
 | `assets/who-makes-the-words.mp4` | Slide 10 animation of the five stages |
 | `assets/teachers-tuesday-night.mp4` | Slide 12 optional scene |
+
+The three clips were copied on November 5, 2026 from `future-ready-not-just-ai-ready/assets/`. They are byte-for-byte the keynote's files, and the deck's YouTube and Drive links point to the same videos.
 | `assets/opening-qr.svg`, `assets/deck-qr.svg` | QR codes for `https://minerclass.github.io/ietc-2026-great-bypass/` (slide 1 and the resources slide, which stays slide 20). Live since the repo was published on November 5, 2026 |
 | `assets/er01884-survey-qr.svg`, `.png` | QR code for the survey link, `https://forms.cloud.microsoft/r/UbTcf4EHKn`, on slide 21. Decoded and checked against the link, including from 1280x720 and 1920x1080 renders of the slide |
 
@@ -37,5 +39,4 @@ The page loads `https://minerclass.github.io/tokens.css`, like the keynote. Keep
 - The repo is `minerclass/ietc-2026-great-bypass`, matching the QR codes and `og:url`. It was published from the corrected copy of October 30. If the working folder (`ietc-2026-greaet-bypass`) has later edits, pull this repo first and bring them in here.
 - Scan both QR codes from a phone once the site is live.
 - The survey opened on November 5, 2026. Slide 21 shows the approved survey notice (B) word for word; slide 18 keeps "collecting data through February 2027."
-- The three `.mp4` clips are not in this repo yet. Copy them into `assets/` from the working folder; until then the deck uses the YouTube and Drive fallbacks.
 - Run the deck once from the local folder with Wi-Fi off. The clips play from `assets/`; YouTube and Drive are the fallbacks.
