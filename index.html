@@ -86,6 +86,17 @@
   .inner { max-width:68rem; width:100%; margin:0 auto; display:flex; flex-direction:column; gap:clamp(0.7rem,2.3vmin,1.9rem); }
   .inner.wide { max-width:82rem; }
 
+  /* Fill the stage. On a landscape screen each slide's content is enlarged by
+     its own factor (--z, set per slide) so type is readable from the back of
+     the room and the layout uses the full width. Phones and portrait or 4:3
+     windows keep the unscaled layout above. */
+  @media (min-aspect-ratio:3/2) and (min-width:60rem) and (min-height:30rem) {
+    .inner, .inner.wide { zoom:var(--z,1); max-width:none; }
+    .huge { max-width:32ch; }
+    .lede { max-width:78ch; }
+    .display-sub { max-width:58ch; }
+  }
+
   /* ---------- type ---------- */
   .eyebrow { font-family:var(--font-data); font-size:clamp(0.62rem,1.25vmin,1rem); letter-spacing:0.18em; text-transform:uppercase; color:var(--signal); margin:0; }
   h1 { font-family:var(--font-display); font-size:clamp(2.2rem,7.2vmin,6.4rem); line-height:1.0; letter-spacing:-0.035em; font-weight:700; margin:0; text-wrap:balance; }
@@ -433,7 +444,7 @@
 <main class="deck" id="deck">
 
   <!-- 1 --><section class="scene dark" data-sec="Opening" data-notes="Open here while people settle. Invite attendees to scan the code to follow along; it opens this public deck at slide 1. Play Maya's essay when the room is ready, then press Back to presentation or Escape and advance to the questions. Do not talk over the room. Wait for quiet. Badge scans handle attendance and PD credit, so there is no sign-in sheet. Pacing target: start the two questions by minute 1.">
-    <div class="inner opening-layout">
+    <div class="inner opening-layout" style="--z:1.5;">
       <div class="opening-copy">
       <p class="eyebrow">IETC 2026 &middot; Thursday, November 12 &middot; DoubleTree, Salon C</p>
       <h1>The Great Bypass</h1>
@@ -455,7 +466,7 @@
   </section>
 
   <!-- 2 --><section class="scene" data-sec="Opening" data-notes="Do not advance yet. Ask for hands or table talk. Thirty seconds feels long from the stage and is right from the floor.">
-    <div class="inner">
+    <div class="inner" style="--z:2.2;">
       <p class="eyebrow">Before we start</p>
       <h2>Two questions.</h2>
       <p class="lede">Talk to the people at your table. I want honest answers, not impressive ones.</p>
@@ -463,21 +474,21 @@
   </section>
 
   <!-- 3 --><section class="scene dark" data-sec="Opening" data-notes="Give tables thirty seconds, then take two or three answers aloud. This room mixes teachers, coaches, and leaders, so expect both classroom and office answers: first drafts, lesson planning, translation, scheduling, paperwork. Respond to what people actually say.">
-    <div class="inner">
+    <div class="inner" style="--z:2.1;">
       <p class="eyebrow">Question one</p>
       <p class="huge">Name one thing that got <em>easier</em> in your classroom, school, or district this year because of AI.</p>
     </div>
   </section>
 
   <!-- 4 --><section class="scene dark" data-sec="Opening" data-notes="Give the room time to think. If there is silence, let it sit before moving on. If someone offers a credible example, welcome it and ask: What evidence makes you confident? Use the answer to distinguish student capability from polished output. Do not manufacture a gap the room did not report.">
-    <div class="inner">
+    <div class="inner" style="--z:2.3;">
       <p class="eyebrow">Question two</p>
       <p class="huge">Now name one thing your students got <em>better</em> at because of AI.</p>
     </div>
   </section>
 
   <!-- 5 --><section class="scene" data-sec="Opening" data-notes="Name what the room actually reported: a gap in evidence, uncertainty, or a credible example of student growth. Avoid scolding anyone. The two questions measure different things, even when a school can answer both. Point at the columns and land the last line slowly. What should stay difficult is the question the session carries. Pacing target: finish the opening by minute 7.">
-    <div class="inner wide">
+    <div class="inner wide" style="--z:1.55;">
       <p class="eyebrow">The gap</p>
       <h2>Those are not the same question.</h2>
       <div class="contrast">
@@ -505,7 +516,7 @@
   </section>
 
   <!-- 6 --><section class="scene" data-sec="The bypass" data-notes="THE HINGE. Walk both bars slowly BEFORE clicking reveal. Ask the room what the dashboard says. Then click. Let the word Identical sit. EXPECT PUSHBACK: someone may say Docs version history or process logs can tell them apart. Agree that some tools capture process, then add: most district dashboards do not surface it, and a process log still is not the thinking. Somebody has to look.">
-    <div class="inner wide">
+    <div class="inner wide" style="--z:1.3;">
       <p class="eyebrow">Why the metric fails</p>
       <h2>Two students. Forty-five minutes each.</h2>
       <figure>
@@ -523,11 +534,11 @@
 
           <text x="0" y="132" font-size="17" font-weight="700" fill="currentColor">Student B</text>
           <rect x="0" y="146" width="86" height="46" fill="#0E6E78"/>
-          <rect x="88" y="146" width="618" height="46" fill="#9FBEC2"/>
-          <rect x="708" y="146" width="92" height="46" fill="#0E6E78"/>
+          <rect x="88" y="146" width="596" height="46" fill="#9FBEC2"/>
+          <rect x="686" y="146" width="114" height="46" fill="#0E6E78"/>
           <text x="8" y="175" font-size="13" fill="#FFFFFF">Prompt</text>
           <text x="98" y="175" font-size="13" fill="#1E2328">Waited, scrolled, skimmed the output</text>
-          <text x="716" y="175" font-size="13" fill="#FFFFFF">Edited 3 words</text>
+          <text x="696" y="175" font-size="13" fill="#FFFFFF">Edited 3 words</text>
           <text x="812" y="175" font-size="14" font-weight="700" fill="currentColor">45 min</text>
         </svg>
         <figcaption>Same device, same minutes, same completion flag.</figcaption>
@@ -541,7 +552,7 @@
   </section>
 
   <!-- 7 --><section class="scene dark" data-sec="The bypass" data-notes="The pivot. Say the large line once, cleanly, and let the slide hold. Then read the line below it and name it: this is what I call the Great Bypass.">
-    <div class="inner">
+    <div class="inner" style="--z:1.85;">
       <p class="eyebrow">The better question</p>
       <p class="huge">Not how long the screen was on. <em>What the screen made easy.</em></p>
       <hr class="rule">
@@ -550,7 +561,7 @@
   </section>
 
   <!-- 8 --><section class="scene" data-sec="The bypass" data-notes="About three minutes. This is the learning science the session description promises. Desirable difficulties: Bjork and Bjork (2011) describe conditions that slow performance during practice, such as spacing, retrieval, generation, and varied practice, yet strengthen long-term retention and transfer. Productive failure: Kapur (2008) found that students who struggle with a problem before instruction can understand it more deeply afterward. Then name the Great Bypass: generative AI makes each of these difficulties optional by default, and the finished product still appears. Do not overclaim. These are findings about practice and instruction, not studies of generative AI. Pacing target: reach unproductive success by minute 13.">
-    <div class="inner wide">
+    <div class="inner wide" style="--z:1.4;">
       <p class="eyebrow">What learning science says</p>
       <h2>Some difficulty is how learning happens.</h2>
       <div class="activity-steps" aria-label="Learning science behind pedagogical friction">
@@ -564,7 +575,7 @@
   </section>
 
   <!-- 9 --><section class="scene dark" data-sec="The bypass" data-notes="INTERACTIVE. This picks up card 03 on the last slide: performance is not learning. This is a conceptual illustration, not measured student data. Show the rising line first and ask what it means. Most rooms read it as good news. THEN click to add the flat line. Trace the possible gap with your hand. Independent work is how leaders could test for it. Credit the term aloud: unproductive success comes from Manu Kapur (2016, Educational Psychologist); the i.e.: inquiry in education article extends it to generative AI. The caption link is the September 29 ISBE Weekly. Do not name the student. If you use it, say an Illinois student wrote that top grades and a perfect GPA can arrive without the skills those grades are supposed to represent. Pacing target: reach the five stages by minute 15.">
-    <div class="inner wide">
+    <div class="inner wide" style="--z:1.05;">
       <p class="eyebrow">Researchers call this unproductive success</p>
       <h2>Green dashboard, unfinished learning</h2>
       <p class="chart-clarifier">Illustrative pattern, not measured student data.</p>
@@ -638,7 +649,7 @@
   </section>
 
   <!-- 11 --><section class="scene" data-sec="Friction" data-notes="Say plainly: I am not arguing for making school harder. Some difficulty is the point, some is just a barrier. The diagram does the structural work, do not over-explain. Name pedagogical friction and the four research names once here, then use Head, Room, World, and the base as shorthand. The base sits beneath the other three as their condition, not beside them as a fourth peer. Read the student quote last. It is the same Illinois student from the unproductive success slide.">
-    <div class="inner wide">
+    <div class="inner wide" style="--z:1.35;">
       <p class="eyebrow">The reframe</p>
       <h2>Friction is not one thing.</h2>
       <div class="split split--fig">
@@ -684,7 +695,7 @@
   </section>
 
   <!-- 12 --><section class="scene" data-sec="Friction" data-notes="Be generous here. Leaders who apply blanket AI caution end up restricting the safest use while permitting the riskiest. Say that out loud. Ask the room to count the dots that reach Head, Room, and World: three of twelve. Click Remove the barriers. All twelve now reach the same work, and the work itself did not change. That is the point: easing the base changes who reaches the work; it does not do the work for them. OPTIONAL, 15 seconds, no audio: Play scene shows a teacher whose evening goes to IEP scheduling, a drafted schedule she still reviews, and the time she gets back spent on feedback for Maya. Skip it if Maya's essay did not open the session. The illustration is not student data. IF TIME IS SHORT: say this slide's point while still on the friction layers slide and skip it.">
-    <div class="inner wide">
+    <div class="inner wide" style="--z:1.5;">
       <span class="tagline tagline--reduce">Reduce this layer</span>
       <h2>The base: the conditions</h2>
       <div class="split split--fig">
@@ -714,7 +725,7 @@
   </section>
 
   <!-- 13 --><section class="scene" data-sec="Friction" data-notes="INTERACTIVE. Click each one as you talk through it. Head, Room, World. Roughly forty seconds each. These are the cognitive, rhetorical, and existential resistance the session description names. World is existential friction: who students become, not only what they produce. The panel names what it looks like when a tool absorbs that layer.">
-    <div class="inner wide">
+    <div class="inner wide" style="--z:1.5;">
       <p class="eyebrow">The three you protect</p>
       <h2>Head, Room, and World.</h2>
       <p class="hint">Click each one</p>
@@ -755,7 +766,7 @@
   </section>
 
   <!-- 14 --><section class="scene" data-sec="Friction" data-notes="Tools can be designed to preserve productive struggle. The point is that educators and leaders must still judge the fit between a tool's design, the learning goal, and the learner's needs. Trace the diagram once: the tool brings its design, the district brings the goal and the learner, and the call in the middle leads to keep, change, constrain, or stop, the same four options the room votes on two slides later. Say it warmly. Optional aside, skip if short on time: 'A quick aside from this week: Google says schools can turn off its AI tools for students, but if they do, students lose Google Search too, because in Google's words search and AI are now deeply integrated. Senator Markey called that an ultimatum in a letter on Monday, and for me it is tertiary algorithmicity showing up as a district setting: the system that chooses the words and the system that makes them now come on one switch.' Sources: Google's Nov 3 announcement (NBC News, CNN); Markey's Nov 9 letter to Sundar Pichai. No rollout date announced yet. Pacing target: arrive at the four questions by minute 24.">
-    <div class="inner wide">
+    <div class="inner wide" style="--z:1.4;">
       <p class="eyebrow">The part that is nobody's fault</p>
       <h2>The instructional judgment stays with you.</h2>
       <div class="split split--fig">
@@ -774,7 +785,7 @@
   </section>
 
   <!-- 15 --><section class="scene" data-sec="The lens" data-notes="INTERACTIVE. Click each question to open the why. Four is the one that changes procurement conversations. Leave four open when you move on. This lens diagnoses displaced learning; it does not clear a use for privacy, accuracy, bias, access, or academic integrity. Those are separate safeguards, including when a tool eases only the base. IF SOMEONE RAISES THE RED/YELLOW/GREEN TRAFFIC LIGHT SYSTEM (the ISBE Weekly student describes it): the light sets permission for each assignment; these four questions decide which color, by naming the work that has to stay with the student.">
-    <div class="inner">
+    <div class="inner" style="--z:1.25;">
       <p class="eyebrow">The lens</p>
       <h2>Four questions. Any tool, any vendor.</h2>
       <p class="hint">Click a question to open it</p>
@@ -804,7 +815,7 @@
   </section>
 
   <!-- 16 --><section class="scene" data-sec="The lens" data-notes="VOTE BEFORE THE REVEAL. Use two examples, plus text to speech last. For each, give ten seconds to decide alone, twenty seconds to explain to a neighbor, then ask for a show of hands: keep, change, constrain, or stop. Ask what information is missing before clicking. For text to speech, compare evaluating historical evidence with practicing decoding: Same feature. Different learning goal. What changes about your decision? Retain needed accessibility supports in both situations. Allow about three minutes for this discussion. Base-layer relief still needs privacy, accuracy, access, bias, and integrity checks. Pacing target: begin the table audit by minute 29.">
-    <div class="inner wide">
+    <div class="inner wide" style="--z:1.45;">
       <p class="eyebrow">Try the lens &middot; pick one</p>
       <h2>Which layer does it ease?</h2>
       <p class="hint">Decide alone. Compare with a neighbor. Vote before the reveal.</p>
@@ -861,7 +872,7 @@
   </section>
 
   <!-- 18 --><section class="scene" data-sec="The system" data-notes="About four minutes. Start from the table audit's second sentence. Ask one or two tables what has to hold for their protection to last, and who owns it. That is infrastructural friction. One teacher can redesign a task; grades, pacing guides, device settings, professional learning, and policy decide whether the redesign survives the next grading period. Then the study, honestly. The session description mentions case study findings. Say plainly: I wrote that description before the design was finalized for my proposal defense in August. The study is now collecting data through February 2027, so there are no findings to report today. Then say what the study is built to learn. Do not describe any participant or preliminary pattern. This slide is not a recruitment notice; keep it that way. Pacing target: reach the close by minute 42.">
-    <div class="inner wide">
+    <div class="inner wide" style="--z:1.25;">
       <p class="eyebrow">The base decides what survives</p>
       <h2>Infrastructure is where friction lives or dies.</h2>
       <div class="split split--fig">
@@ -882,7 +893,7 @@
   </section>
 
   <!-- 19 --><section class="scene dark" data-sec="Close" data-notes="Return to what the room said at the opening: what got easier, what got better, and the evidence that distinguishes them. Land the line and pause. Then advance silently to resources for questions. End on time; the next presenter needs the room by 12:55.">
-    <div class="inner">
+    <div class="inner" style="--z:1.7;">
       <p class="eyebrow">Where we started</p>
       <p class="huge">The schools that will be ready are not the ones that adopted fastest.</p>
       <h2>They are the ones that decided, on purpose, what to keep difficult.</h2>
@@ -890,7 +901,7 @@
   </section>
 
   <!-- 20 --><section class="scene" data-sec="Close" data-notes="Leave this up during questions. Repeat each question into the mic before answering. If the room is quiet, seed it: which friction in your own setting is worth protecting, and which is worth removing?">
-    <div class="inner">
+    <div class="inner" style="--z:1.1;">
       <p class="eyebrow">Take one thing with you</p>
       <h2>Resources</h2>
       <div class="resource-grid">
@@ -914,7 +925,7 @@
   </section>
 
   <!-- 21 --><section class="scene" data-sec="Close" data-notes="Optional. Show it at the end or leave it up after questions. The text is the approved survey notice (B), word for word, with the survey link and its QR code. Mention it in your own words if you like, but do not ask anyone to pass it on.">
-    <div class="inner wide">
+    <div class="inner wide" style="--z:1.2;">
       <p class="eyebrow">Survey invitation</p>
       <h2 class="survey-title">Invitation: dissertation study on generative AI and K&ndash;12 teaching and learning</h2>
       <div class="resource-grid survey-grid">
@@ -929,7 +940,7 @@
   </section>
 
   <!-- 22 --><section class="scene" data-sec="References" data-notes="Not presented. Here for anyone following along on their own device.">
-    <div class="inner wide">
+    <div class="inner wide" style="--z:1.55;">
       <h2>References</h2>
       <div class="refs-list">
         <p>Bjork, E. L., &amp; Bjork, R. A. (2011). Making things hard on yourself, but in a good way: Creating desirable difficulties to enhance learning. In M. A. Gernsbacher, R. W. Pew, L. M. Hough, &amp; J. R. Pomerantz (Eds.), <em>Psychology and the real world: Essays illustrating fundamental contributions to society</em> (pp. 56&ndash;64). Worth Publishers.</p>
